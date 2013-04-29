@@ -42,9 +42,9 @@ var defaultHidget = '<li class="hidget">' +
  */
 jQuery(document).ready(function() {
 	setupJqueryDefaults();
-	setupWebsocket();
 	setupGridster();
 	setupControls();
+	setupWebsocket();
 });
 
 
@@ -170,7 +170,6 @@ function createMonitorSearchForm(id) {
 	
 	return searchDiv;
 }
-
 
 function createMonitorValueDisplay(id) {
 	var div = $("<div class=\"valueDisplay\" id=\"valueDisplay" + id + "\">");
