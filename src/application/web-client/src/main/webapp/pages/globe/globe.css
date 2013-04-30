@@ -1,0 +1,12 @@
+@import url(../../Cesium/Widgets/CesiumWidget/CesiumWidget.css);
+
+
+body {
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
+
+.cesium-widget-logo {
+	display: none;
+}

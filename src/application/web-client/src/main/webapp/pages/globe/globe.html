@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Hbird globe</title>
+	
+	<!-- Scripts
+	================================================== -->
+	<script type="text/javascript" src="../../Cesium/Cesium.js"></script>
+	<script type="text/javascript" src="../../js/jquery.js"></script>
+	<script type="text/javascript" src="../../js/jquery-ui-1.8.23.custom.min.js"></script>
+	<script type="text/javascript" src="../../js/json2.js"></script>
+	<script type="text/javascript" src="../../js/jquery.gracefulWebSocket.js"></script>
+	<script type="text/javascript" src="../../js/pines/jquery.pnotify.min.js"></script>
+		
+	<!-- CSS
+  	================================================== -->
+  	<link rel="stylesheet" href="../../css/reset-min.css">
+  	<link rel="stylesheet" href="../../css/hbird-base.css">
+	<link rel="Stylesheet" href="../../css/flick/theme.css"/>
+	<link rel="stylesheet" href="../../css/pines/jquery.pnotify.default.css" media="all" />
+	<link rel="stylesheet" href="../../css/pines/jquery.pnotify.default.icons.css" media="all" />
+  	<link rel="stylesheet" href="globe.css">
+</head>
+
+<body>
+	<div id="cesiumContainer"></div>
+	<script>
+		var cesiumWidget = new Cesium.CesiumWidget('cesiumContainer');
+	</script>
+</body>
+
+</html>
