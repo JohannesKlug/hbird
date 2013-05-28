@@ -429,10 +429,10 @@ function plotParameter(parameter) {
 	if (size >= maxDataSeriesSize) {
 		parameterSeries.shift();
 	}
-	
 
 	// Create the new data for the chart by added all seriesData to a new array
 	// and setting on the plot.
+	// FIXME Crap array copying code. Don't even need to do it! Idiot.
 	var newData = [];
 	var totalPlottedPoints = 0;
 	for(var i in seriesData) {

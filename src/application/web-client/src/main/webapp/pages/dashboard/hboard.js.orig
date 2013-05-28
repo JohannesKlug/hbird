@@ -80,8 +80,15 @@ function setupControls() {
 		// Create the internal markup for the hidget.
 		var searchForm = createMonitorSearchForm(currentId);
 		var button = createSettingsButton(currentId);
+<<<<<<< master
+		var closeButton = createWidgetCloseButton(currentId);
+		closeButton.appendTo($(hidget).children(".titleArea"));
+		button.appendTo($(hidget).children(".titleArea"));
+		searchForm.appendTo(hidget);
+=======
 		button.appendTo($(monitorWidget).children(".titleArea"));
 		searchForm.appendTo(monitorWidget);
+>>>>>>> local
 
 		// Colour the hidget.
 		monitorWidget.addClass(grabSomeColour());
@@ -120,6 +127,11 @@ function grabSomeColour() {
 	return colours[Math.floor((Math.random() * colours.length-1) + 1)];
 }
 
+/**
+ * Creates a close button for a specific widget. Button removes the widget from gridster.
+ * @param id
+ * @returns
+ */
 function createWidgetCloseButton(id) {
 	var butt = $("<button type=\"button\"/>").attr("id", "closeButton" + id);
 	butt.button({
@@ -221,13 +233,19 @@ function createMonitorSearchForm(id) {
 				found = true;
 				setHidgetTitle(id, $(option[i]).text());
 				$("#searchSection" + id).toggleClass("removed");
-				linkWidgetToParameter(parameterQualifiedName, id);
-				createWidgetContent(id);
+<<<<<<< master
+				hidgetMonitorMap[parameterQualifiedName] = id;
+				if($("#valueDisplay" + id).length == 0) {
+					hidgets[id].append(createMonitorValueDisplay(id));
 				}
 				else {
 					$("#valueDisplay" + id).replaceWith(createMonitorValueDisplay(id));
 				}
 				
+=======
+				linkWidgetToParameter(parameterQualifiedName, id);
+				createWidgetContent(id);
+>>>>>>> local
 				liveTmWebsocket.send(parameterQualifiedName);
 				return false; // this is the same as a break in the jquery each function
 			}
@@ -247,6 +265,14 @@ function createMonitorSearchForm(id) {
 	return searchDiv;
 }
 
+<<<<<<< master
+
+/**
+ * Creates a div to show the parameter value and unit type for a specific widget.
+ * @param id
+ * @returns
+ */
+=======
 function linkWidgetToParameter(parameterQualifiedName, widgetId) {
 	// First check the listener map for the widget id. If it's present it is already monitoring a parameter 
 	// so we should remove that.
@@ -298,6 +324,7 @@ function setWidgetContent(id, newContent) {
 	toggleWidgetContent(id);
 }
 
+>>>>>>> local
 function createMonitorValueDisplay(id) {
 	var div = $("<div class=\"valueDisplay\" id=\"valueDisplay" + id + "\">");
 	var monitorValue = $("<p class=value id=value" + id + ">--</p>");

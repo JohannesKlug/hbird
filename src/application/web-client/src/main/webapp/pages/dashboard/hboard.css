@@ -1,37 +1,37 @@
-.hidget {
+.widget {
 	padding: 4px;
 	border: thin solid rgba(255, 255, 255, 0.5);
 	font-size: 10px;
 }
 
-.hidget button {
+.widget button {
 	width: 16px;
 	height: 16px;
 	font-size: 1em;
 	float: right;
 }
 
-.hidget h2 {
+.widget h2 {
 	color: hsla(0, 100%, 100%, 0.7);
 	display: inline;
 	text-shadow: none;
 }
 
-.hidget .titleArea {
+.widget .titleArea {
 	display: block;
 	margin-bottom: 14px;
 }
 
-.hidget .valueDisplay {
+.widget .valueDisplay {
 	text-align: center;
 }
 
-.hidget .value {
+.widget .value {
 	font-size: 3em;
 	font-weight: bold;
 }
 
-.hidget .unit {
+.widget .unit {
 	font-size: 2em;
 }
 
@@ -41,7 +41,11 @@
 	font-size: 14px;
 }
 
-.hidget .content {
+.widget .content {
 	font-size: 14px;
 }
 
+.plot {
+	width: 610px;
+	height: 240px;
+}
