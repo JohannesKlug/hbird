@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/blueprint" 
+       xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+       xsi:schemaLocation="
+       http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+       http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd 
+       http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0 http://svn.apache.org/repos/asf/aries/trunk/blueprint/blueprint-cm/src/main/resources/org/apache/aries/blueprint/compendium/cm/blueprint-cm-1.1.0.xsd">
+
+	<camelContext id="ngobsCamelContext" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
+		<!-- This endpoint is where Commands are sent to by the commanding application -->
+		<endpoint id="commandSenderEndpoint" uri="seda:sendCommands" pattern="InOnly" />
+
+		<!-- This endpoint allows service based pojos to send parameter archiver queries to routes. -->
+		<endpoint id="parameterArchiveQueriesEndpoint" uri="seda:parameterArchiveQueries" pattern="InOut"/>
+
+		<route id="parameterGroupSplitting">
+			<from uri="seda:parameterGroupsUnsplit?multipleConsumers=true" />
+			<camel:split>
+				<camel:method beanType="org.ngobs.util.ParameterGroupParametersExtractor" method="extractParameters" ></camel:method>
+				<to uri="seda:parameters?multipleConsumers=true" />
+			</camel:split>
+		</route>
+
+		<route id="parameterCacheRoute">
+			<from uri="seda:parameters?multipleConsumers=true"/>
+			<to uri="bean:parameterCache"/>
+		</route>
+
+		<!-- Takes parameters and archives them in the mongo database -->
+		<route id="parameterArchiving">
+			<from uri="seda:parameters?multipleConsumers=true"/>
+			<to uri="mongodb:hbirdMongo?database=${mcs-name}&amp;collection=parameters&amp;operation=insert" />
+		</route>
+
+		<route id="parameterArchiveQueryRoute">
+			<from uri="seda:parameterArchiveQueries"/>
+			<setExchangePattern pattern="InOut"/>
+			<to uri="mongodb:hbirdMongo?database=${mcs-name}&amp;collection=parameters&amp;operation=findAll"/>
+		</route>
+
+		<route id="halcyonLiveTmIn">
+			<from uri="seda:parameterGroupsOut"/>
+			<to uri="bean:parameterListener"/>
+		</route>
+	</camelContext>
+
+</blueprint>

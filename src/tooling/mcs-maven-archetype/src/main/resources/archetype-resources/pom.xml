@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>${groupId}</groupId>
+	<artifactId>${artifactId}</artifactId>
+	<packaging>bundle</packaging>
+	<version>${version}</version>
+
+	<name>A hummingbird Mission Control System</name>
+	<url>http://www.myorganization.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+
+	<dependencies>
+		<!-- Hummingbird -->
+		<dependency>
+			<groupId>org.hbird.core</groupId>
+			<artifactId>xtce</artifactId>
+			<version>${hbird-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hbird.osgi</groupId>
+			<artifactId>xtce-osgi</artifactId>
+			<version>${hbird-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hbird.core</groupId>
+			<artifactId>space-system-publisher</artifactId>
+			<version>${hbird-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hbird.osgi</groupId>
+			<artifactId>space-system-publisher-osgi</artifactId>
+			<version>${hbird-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hbird.transport</groupId>
+			<artifactId>payload-codec</artifactId>
+			<version>${hbird-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hbird.transport</groupId>
+			<artifactId>protocols</artifactId>
+			<version>${hbird-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hbird.application</groupId>
+			<artifactId>commanding</artifactId>
+			<version>${hbird-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hbird.application</groupId>
+			<artifactId>parameter-cache</artifactId>
+			<version>${hbird-version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Camel -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-blueprint</artifactId>
+			<version>${camel-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-mongodb</artifactId>
+			<version>${camel-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-netty</artifactId>
+			<scope>provided</scope>
+			<version>${camel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-mina2</artifactId>
+			<version>${camel.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.6</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.6</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.6.6</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- testing -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test-blueprint</artifactId>
+			<version>${camel-version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+
+			<!-- to generate the MANIFEST-FILE of the bundle -->
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>${maven-bundle-plugin-version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${artifactId}</Bundle-SymbolicName>
+						<Import-Package>*,org.apache.camel.osgi</Import-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.3</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>
+									<filtering>true</filtering>
+								</resource>
+								<resource>
+									<directory>spacesystem</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-artifacts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>target/features.xml</file>
+									<type>xml</type>
+									<classifier>features</classifier>
+								</artifact>
+								<artifact>
+									<file>target/${mcs-name}-spacesystem.xml</file>
+									<type>spacesystem</type>
+									<classifier>${mcs-name}</classifier>
+								</artifact>
+								<artifact>
+									<file>target/org.hbird.osgi.xtceosgi.cfg</file>
+									<type>cfg</type>
+									<classifier>${mcs-name}-xtce-cfg</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>

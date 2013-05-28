@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.0.0">
+
+ 	 <OCD id="archiving" name="${mcs-name} :: MCS :: Archiving" description="${mcs-name} MCS archiving configuration">
+ 	 	<AD 
+ 	 		id="mongoDbHost" 
+ 	 		name="MongoDb archiving source URI" 
+ 	 		description="Hostname and port of the mongodb instance e.g. localhost" 
+ 	 		type="String" 
+ 	 		default="localhost">
+ 	 	</AD>
+	 </OCD>
+	 
+	 <Designate pid="org.hbird.${mcs-name}.archiving" >
+	 	<Object ocdref="archiving"></Object>
+	 </Designate>
+
+</metatype:MetaData>

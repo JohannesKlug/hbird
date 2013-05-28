@@ -21,6 +21,7 @@
 		<module>test</module>
 		<module>osgi</module>
 		<module>hbird-karaf</module>
+		<module>tooling</module>
 	</modules>
 	<properties>
 		<rxtx.version>2.1.7</rxtx.version>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint	xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" 
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+			xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+
+	<!-- BEAN DEFININTIONS -->
+	
+	<!-- Get a reference to a publisher service. -->
+	<reference id="spaceSystemPublisherService" 
+			   interface="org.hbird.core.spacesystempublisher.interfaces.SpaceSystemPublisher">
+	</reference>
+	
+	<!-- Command information service impl bean which uses the publisher to get command info -->
+	<bean id="commandInformationService" 
+		  class="org.hbird.application.commanding.provided.info.HbirdPublisherBasedCommandInfo">
+		<property name="publisher" ref="spaceSystemPublisherService"></property>
+	</bean>
+	
+	<bean id="commandInModelChecker" class="org.hbird.application.commanding.provided.processing.CommandInModelChecker"></bean>
+	
+	<bean id="commandAcceptor" class="org.hbird.application.commanding.provided.processing.DefaultCommandAcceptor"></bean>
+
+
+	<!-- SERVICE REGISTRATIONS -->
+		
+	<!-- Register command applications command information service as an OSGi service -->
+	<service id="commandInfoService" 
+			 interface="org.hbird.application.commanding.interfaces.info.CommandInformationService"
+			 ref="commandInformationService">
+	</service>
+	
+	<service id="commandingService" 
+			 interface="org.hbird.application.commanding.interfaces.processing.CommandAcceptor"
+			 ref="commandAcceptor">
+	</service>
+	
+</blueprint>
