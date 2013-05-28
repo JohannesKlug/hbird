@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.hbird.core.spacesystemmodel.tmtc.Parameter;
+import org.hbird.core.spacesystemmodel.tmtc.ParameterGroup;
 
 public class InMemoryParameterCache implements ParameterCache {
 
@@ -11,6 +12,12 @@ public class InMemoryParameterCache implements ParameterCache {
 
 	public void handleParameterUpdate(Parameter<?> parameter) {
 		parameterMap.put(parameter.getQualifiedName(), parameter);
+	}
+
+	public void handleParameterUpdate(ParameterGroup parameterGroup) {
+		for (Parameter<?> p : parameterGroup.getAllParameters().values()) {
+			parameterMap.put(p.getQualifiedName(), p);
+		}
 	}
 
 	/**
