@@ -1,9 +1,9 @@
 // Test
 var czml = [
 	{
-		"id" : "DarmstadtGroundStation",
+		"id" : "Strand-1",
 		"position": { 
-			"cartographicDegrees": [8.63517, 49.87147, 20.0]
+			"cartesian": [8.63517, 49.87147, 20.0]
 		},
         "point": {
             "color": { 
