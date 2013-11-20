@@ -37,7 +37,6 @@ public class TleCzmlUtilitiesTest {
 
 		@Override
 		public void finished() {
-			System.out.println("finito!");
 			wait = false;
 		}
 		

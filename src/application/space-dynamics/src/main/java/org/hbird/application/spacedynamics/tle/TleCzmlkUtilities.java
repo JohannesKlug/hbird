@@ -30,7 +30,8 @@ import org.orekit.utils.PVCoordinates;
  */
 public class TleCzmlkUtilities {
 
-	private static final int ONE_HOUR = 3600;
+	private static final int HALF_MINUTE = 30;
+	
 	/** The remainder given by the modulus when we have read a TLE for a satellite */
 	private static final int SAT_NAME_LINE_ORDINAL = 0;
 
@@ -73,11 +74,11 @@ public class TleCzmlkUtilities {
 				final AbsoluteDate now = new AbsoluteDate(nowUtc.toDate(), TimeScalesFactory.getUTC());
 				final AbsoluteDate tomorrow = new AbsoluteDate(tomorrowUtc.toDate(), TimeScalesFactory.getUTC());
 
-				proper.setMasterMode(ONE_HOUR, new OrekitFixedStepHandler() {
+				proper.setMasterMode(HALF_MINUTE, new OrekitFixedStepHandler() {
 
 					@Override
 					public void init(SpacecraftState spacecraftState, AbsoluteDate date) throws PropagationException {
-						createCzmlTimeTaggedPosition(finishedListener, frame, spacecraftState, false);
+//						createCzmlTimeTaggedPosition(finishedListener, frame, spacecraftState, false);
 					}
 
 					@Override
@@ -113,7 +114,7 @@ public class TleCzmlkUtilities {
 							}
 						}
 						else {
-							System.out.println("\"" + isoDate + "\"" + ", " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ", ");
+							System.out.println("\"" + isoDate + "\"" + ", " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ",");
 						}
 					}
 				});
