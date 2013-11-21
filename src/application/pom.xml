@@ -22,5 +22,6 @@
 		<module>web-client</module>
 		<module>parameter-cache</module>
 		<module>space-dynamics</module>
+		<module>czml-writer</module>
 	</modules>
 </project>
