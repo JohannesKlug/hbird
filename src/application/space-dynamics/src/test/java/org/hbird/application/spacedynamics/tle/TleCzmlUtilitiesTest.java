@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import org.hbird.application.spacedynamics.tle.TleCzmlkUtilities.PropagationFinishedListener;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.orekit.data.DataProvidersManager;
