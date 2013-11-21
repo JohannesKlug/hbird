@@ -1,7 +1,6 @@
 package org.hbird.application.spacedynamics.tle;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.hbird.application.spacedynamics.tle.TleCzmlkUtilities.PropagationFinishedListener;
 import org.joda.time.DateTime;
 import org.orekit.errors.OrekitException;
 import org.orekit.errors.PropagationException;

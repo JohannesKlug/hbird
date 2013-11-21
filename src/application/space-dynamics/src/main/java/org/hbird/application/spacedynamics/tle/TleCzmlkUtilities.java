@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.hbird.application.spacedynamics.tle.TleCzmlkUtilities.PropagationFinishedListener;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.orekit.errors.OrekitException;
@@ -78,9 +77,5 @@ public class TleCzmlkUtilities {
 		bufRead.close();
 
 		return czml;
-	}
-
-	public interface PropagationFinishedListener {
-		void finished();
 	}
 }
