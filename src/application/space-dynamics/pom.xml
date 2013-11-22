@@ -6,6 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>space-dynamics</artifactId>
+  <name>Hbird :: Application :: Space Dynamics</name>
   <packaging>bundle</packaging>
   <dependencies>
   	<dependency>

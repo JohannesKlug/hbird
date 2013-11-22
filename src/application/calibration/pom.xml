@@ -59,5 +59,4 @@
 
 	<packaging>bundle</packaging>
 	<name>Hbird :: Application :: Calibration</name>
-	<description>Not much. Hacking junk in here really.</description>
 </project>
