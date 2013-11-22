@@ -22,8 +22,6 @@ import org.orekit.time.TimeScalesFactory;
  */
 public class TleCzmlkUtilities {
 
-	private static final int HALF_MINUTE = 30;
-
 	/** The remainder given by the modulus when we have read a TLE for a satellite */
 	private static final int SAT_NAME_LINE_ORDINAL = 0;
 
@@ -35,7 +33,8 @@ public class TleCzmlkUtilities {
 	 * @throws IOException
 	 * @throws OrekitException
 	 */
-	public static final String createCzmlFromTleFile(File tleFile, final PropagationFinishedListener finishedListener, String satelliteName, Frame frame) throws IOException, OrekitException {
+	public static final String createCzmlFromTleFile(File tleFile, final PropagationFinishedListener finishedListener, String satelliteName, Frame frame, int propagationStep) throws IOException,
+			OrekitException {
 		final String czml = null;
 
 		final BufferedReader bufRead = new BufferedReader(new FileReader(tleFile));
@@ -64,7 +63,7 @@ public class TleCzmlkUtilities {
 				final AbsoluteDate now = new AbsoluteDate(nowUtc.toDate(), TimeScalesFactory.getUTC());
 				final AbsoluteDate tomorrow = new AbsoluteDate(tomorrowUtc.toDate(), TimeScalesFactory.getUTC());
 
-				proper.setMasterMode(HALF_MINUTE, new CzmlGeneratorHandler(finishedListener, frame, satelliteName));
+				proper.setMasterMode(propagationStep, new CzmlGeneratorHandler(finishedListener, frame, satelliteName));
 
 				proper.propagate(now, tomorrow);
 

@@ -21,5 +21,9 @@
   		<artifactId>czml-writer</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+  		<groupId>commons-collections</groupId>
+  		<artifactId>commons-collections</artifactId>
+  	</dependency>
   </dependencies>
 </project>
