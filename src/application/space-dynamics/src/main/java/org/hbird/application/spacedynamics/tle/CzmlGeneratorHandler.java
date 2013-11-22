@@ -27,26 +27,35 @@ import org.slf4j.MarkerFactory;
 
 import cesiumlanguagewriter.BillboardCesiumWriter;
 import cesiumlanguagewriter.Cartesian;
+import cesiumlanguagewriter.CesiumInterpolationAlgorithm;
 import cesiumlanguagewriter.CesiumOutputStream;
 import cesiumlanguagewriter.CesiumResourceBehavior;
 import cesiumlanguagewriter.CesiumStreamWriter;
 import cesiumlanguagewriter.JulianDate;
 import cesiumlanguagewriter.LabelCesiumWriter;
 import cesiumlanguagewriter.PacketCesiumWriter;
+import cesiumlanguagewriter.PathCesiumWriter;
 import cesiumlanguagewriter.PositionCesiumWriter;
 
 final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
+	private static final int INTERPOLATION_DEGREE = 5;
+
 	private static final double LABEL_SCALE = 0.5;
+
 	private static final Logger LOG = LoggerFactory.getLogger(CzmlGeneratorHandler.class);
+
 	private static final Marker SPACE_DYNAMICS = MarkerFactory.getMarker("SPACE DYNAMICS");
 
 	private final PropagationFinishedListener finishedListener;
 
 	private final String spacecraftName;
+
 	private final Frame frame;
 
 	private final CesiumStreamWriter czmlStreamWriter = new CesiumStreamWriter();
+
 	private final StringWriter stringWriter = new StringWriter();
+
 	private final CesiumOutputStream czmlOutStream = new CesiumOutputStream(stringWriter);
 
 	/** The Packet representing the spacecraft for the complete propagation */
@@ -88,16 +97,31 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 		writeAvailability(spacecraftState, date);
 		writeLabel();
 		writeBillboard();
+		writePath();
+	}
+
+	private void writePath() {
+		PathCesiumWriter pathWriter = spacecraftPacket.getPathWriter();
+		pathWriter.open(czmlOutStream);
+
+		pathWriter.writeLeadTimeProperty(0.0);
+		pathWriter.writeTrailTimeProperty(600.0);
+
+		pathWriter.writeColorProperty(137, 220, 255, 100);
+		pathWriter.writeOutlineColorProperty(111, 177, 237, 100);
+		pathWriter.writeWidthProperty(1.0);
+		pathWriter.writeOutlineWidthProperty(2.5);
+
+		pathWriter.close();
 	}
 
 	private void writeBillboard() {
 		final BillboardCesiumWriter billboardWriter = spacecraftPacket.getBillboardWriter();
 		billboardWriter.open(czmlOutStream);
 
-
 		String satPng = null;
 		try {
-			satPng = createDataUrl(this.getClass().getResource("satellite-32x32.png"));
+			satPng = createBase64EncodedStringFromURL(this.getClass().getResource("satellite-32x32.png"));
 		}
 		catch (final IOException e) {
 			// TODO Auto-generated catch block
@@ -118,13 +142,13 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 		labelWriter.writeTextProperty(spacecraftName);
 		labelWriter.writeScaleProperty(LABEL_SCALE);
 		labelWriter.writeShowProperty(true);
-		labelWriter.writePixelOffsetProperty(0.0, -15.0);
+		labelWriter.writePixelOffsetProperty(0.0, -25.0);
 
 		labelWriter.close();
 	}
 
 	@Override
-	public void handleStep(SpacecraftState spacecraftState, boolean isLast) throws PropagationException {
+	public void handleStep(SpacecraftState spacecraftState, boolean isLast) {
 		createCzmlTimeTaggedPosition(finishedListener, frame, spacecraftState, isLast);
 	}
 
@@ -153,9 +177,11 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 			return;
 		}
 		final Vector3D pos = coords.getPosition();
+
+		addPositionPair(isoDate, pos);
+
 		if (isLast) {
 			// Add the final position pair and write out all the complete position property including sub-properties.
-			addPositionPair(isoDate, pos);
 			writePositionProperty(dates, cartesians, frame);
 
 			spacecraftPacket.close();
@@ -163,9 +189,6 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 			System.out.println(stringWriter.toString());
 
 			notifyFinishedListeners(finishedListener);
-		}
-		else {
-			addPositionPair(isoDate, pos);
 		}
 	}
 
@@ -179,6 +202,9 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 	private void writePositionProperty(List<JulianDate> dates, List<Cartesian> cartesians, final Frame frame) {
 		final PositionCesiumWriter positionWriter = spacecraftPacket.getPositionWriter();
 		positionWriter.open(czmlOutStream);
+
+		positionWriter.writeInterpolationAlgorithm(CesiumInterpolationAlgorithm.LAGRANGE);
+		positionWriter.writeInterpolationDegree(INTERPOLATION_DEGREE);
 		if (frame.isPseudoInertial()) {
 			positionWriter.writeReferenceFrame("INERTIAL");
 		}
@@ -186,6 +212,7 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 			positionWriter.writeReferenceFrame("FIXED");
 		}
 		positionWriter.writeCartesian(dates, cartesians);
+
 		positionWriter.close();
 	}
 
@@ -232,7 +259,7 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 		}
 	}
 
-	private static String createDataUrl(URL url) throws IOException {
+	private static String createBase64EncodedStringFromURL(URL url) throws IOException {
 		final InputStream inputStream = url.openStream();
 		final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 

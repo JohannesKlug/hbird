@@ -13,6 +13,8 @@ import org.orekit.frames.FramesFactory;
 
 public class TleCzmlUtilitiesTest {
 
+	private static final int HALF_MINUTE = 30;
+
 	private boolean wait = true;
 
 	@BeforeClass
@@ -26,7 +28,7 @@ public class TleCzmlUtilitiesTest {
 		final URL url = getClass().getResource("cubesatTle.txt");
 		final File testDataFile = new File(url.getPath());
 
-		TleCzmlkUtilities.createCzmlFromTleFile(testDataFile, new FinishedListener(), "STRAND 1", FramesFactory.getEME2000());
+		TleCzmlkUtilities.createCzmlFromTleFile(testDataFile, new FinishedListener(), "STRAND 1", FramesFactory.getEME2000(), HALF_MINUTE);
 
 		while (wait) {
 			Thread.sleep(500);
@@ -38,9 +40,9 @@ public class TleCzmlUtilitiesTest {
 		final URL url = getClass().getResource("cubesatTle.txt");
 		final File testDataFile = new File(url.getPath());
 
-		TleCzmlkUtilities.createCzmlFromTleFile(testDataFile, new FinishedListener(), "STRAND 1", FramesFactory.getITRF2008());
+		TleCzmlkUtilities.createCzmlFromTleFile(testDataFile, new FinishedListener(), "STRAND 1", FramesFactory.getITRF2008(), HALF_MINUTE);
 
-		while(wait) {
+		while (wait) {
 			Thread.sleep(500);
 		}
 	}
