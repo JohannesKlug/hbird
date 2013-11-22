@@ -26,6 +26,7 @@ jQuery(document).ready(function() {
 function setupGlobe() {
 	cesiumWidget = new Cesium.Viewer('cesiumContainer');
 	var layers = cesiumWidget.centralBody.getImageryLayers();
+	cesiumWidget.centralBody.enableLighting = true;
 	
 	var czmlDataSource = new Cesium.CzmlDataSource();
     czmlDataSource.load(czml, 'Test CZML');

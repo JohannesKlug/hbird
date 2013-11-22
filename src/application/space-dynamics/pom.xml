@@ -16,5 +16,10 @@
   		<groupId>joda-time</groupId>
   		<artifactId>joda-time</artifactId>
   	</dependency>
+  	<dependency>
+  		<groupId>org.hbird.application</groupId>
+  		<artifactId>czml-writer</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>

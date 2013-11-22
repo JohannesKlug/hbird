@@ -9,7 +9,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.orekit.errors.OrekitException;
 import org.orekit.frames.Frame;
-import org.orekit.frames.FramesFactory;
 import org.orekit.propagation.analytical.tle.TLE;
 import org.orekit.propagation.analytical.tle.TLEPropagator;
 import org.orekit.time.AbsoluteDate;
@@ -36,37 +35,36 @@ public class TleCzmlkUtilities {
 	 * @throws IOException
 	 * @throws OrekitException
 	 */
-	public static final String createCzmlFromTleFile(File tleFile, final PropagationFinishedListener finishedListener, String... satNames) throws IOException, OrekitException {
-		String czml = null;
+	public static final String createCzmlFromTleFile(File tleFile, final PropagationFinishedListener finishedListener, String satelliteName, Frame frame) throws IOException, OrekitException {
+		final String czml = null;
 
-		BufferedReader bufRead = new BufferedReader(new FileReader(tleFile));
+		final BufferedReader bufRead = new BufferedReader(new FileReader(tleFile));
 
 		int count = 0;
 		String line = null;
 
 		while ((line = bufRead.readLine()) != null) {
-			int ordinal = count++ % 3;
+			final int ordinal = count++ % 3;
 			if (ordinal == SAT_NAME_LINE_ORDINAL) {
-				String satName = line.trim();
-				if (!satName.contains("STRAND")) {
+				final String satName = line.trim();
+				if (!satName.contains(satelliteName)) {
 					continue;
 				}
 
-				String tleLine1 = line = bufRead.readLine();
-				String tleLine2 = line = bufRead.readLine();
+				final String tleLine1 = line = bufRead.readLine();
+				final String tleLine2 = line = bufRead.readLine();
 
-				TLE tle = new TLE(tleLine1, tleLine2);
+				final TLE tle = new TLE(tleLine1, tleLine2);
 
-				final Frame frame = FramesFactory.getITRF2008();
 				final TLEPropagator proper = TLEPropagator.selectExtrapolator(tle);
 
-				DateTime nowUtc = DateTime.now(DateTimeZone.UTC);
-				DateTime tomorrowUtc = nowUtc.plusDays(1);
+				final DateTime nowUtc = DateTime.now(DateTimeZone.UTC);
+				final DateTime tomorrowUtc = nowUtc.plusDays(1);
 
 				final AbsoluteDate now = new AbsoluteDate(nowUtc.toDate(), TimeScalesFactory.getUTC());
 				final AbsoluteDate tomorrow = new AbsoluteDate(tomorrowUtc.toDate(), TimeScalesFactory.getUTC());
 
-				proper.setMasterMode(HALF_MINUTE, new CzmlGeneratorHandler(finishedListener, frame));
+				proper.setMasterMode(HALF_MINUTE, new CzmlGeneratorHandler(finishedListener, frame, satelliteName));
 
 				proper.propagate(now, tomorrow);
 

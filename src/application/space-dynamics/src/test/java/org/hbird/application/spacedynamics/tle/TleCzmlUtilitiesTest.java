@@ -9,36 +9,49 @@ import org.junit.Test;
 import org.orekit.data.DataProvidersManager;
 import org.orekit.data.ZipJarCrawler;
 import org.orekit.errors.OrekitException;
+import org.orekit.frames.FramesFactory;
 
 public class TleCzmlUtilitiesTest {
-	
+
 	private boolean wait = true;
 
 	@BeforeClass
 	public static final void setupOrekit() {
-		URL url = TleCzmlUtilitiesTest.class.getResource("/orekit-data.zip");
+		final URL url = TleCzmlUtilitiesTest.class.getResource("/orekit-data.zip");
 		DataProvidersManager.getInstance().addProvider(new ZipJarCrawler(new File(url.getPath())));
 	}
 
 	@Test
-	public void testCreateCzmlFromTleFile() throws IOException, OrekitException, InterruptedException {
-		URL url = getClass().getResource("cubesatTle.txt");
-		File testDataFile = new File(url.getPath());
+	public void testCreateCzmlFromTleFileInertialFrame() throws IOException, OrekitException, InterruptedException {
+		final URL url = getClass().getResource("cubesatTle.txt");
+		final File testDataFile = new File(url.getPath());
 
-		TleCzmlkUtilities.createCzmlFromTleFile(testDataFile, new FinishedListener(), "blah");
-		
+		TleCzmlkUtilities.createCzmlFromTleFile(testDataFile, new FinishedListener(), "STRAND 1", FramesFactory.getEME2000());
+
+		while (wait) {
+			Thread.sleep(500);
+		}
+	}
+
+	@Test
+	public void testCreateCzmlFromTleFileFixedFrame() throws IOException, OrekitException, InterruptedException {
+		final URL url = getClass().getResource("cubesatTle.txt");
+		final File testDataFile = new File(url.getPath());
+
+		TleCzmlkUtilities.createCzmlFromTleFile(testDataFile, new FinishedListener(), "STRAND 1", FramesFactory.getITRF2008());
+
 		while(wait) {
 			Thread.sleep(500);
 		}
 	}
-	
+
 	private class FinishedListener implements PropagationFinishedListener {
 
 		@Override
 		public void finished() {
 			wait = false;
 		}
-		
+
 	}
 
 }
