@@ -10,7 +10,7 @@
 	</parent>
 	
 	<artifactId>czml-writer</artifactId>
-	
+<name>Hbird :: Application :: CZML Writer</name>	
 
 
 	<dependencies>
