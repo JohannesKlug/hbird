@@ -30,13 +30,7 @@ public class HalcyonWebsocket implements OnTextMessage, LiveTmReceiver, CmdVerif
 
 	private boolean filtered = false;
 
-	private final Set<String> parametersActive = new HashSet<String>();
-
-	/**
-	 * 
-	 */
-	public HalcyonWebsocket() {
-	}
+	private final Set<String> parametersActive = new HashSet<>();
 
 	@Override
 	public void onOpen(final Connection connection) {
