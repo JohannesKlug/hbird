@@ -39,10 +39,6 @@
 			<feature>hbird-core</feature>
 			<config name="org.hbird.osgi.xtceosgi"></config>
 			<bundle start="false">mvn:org.hbird.core/xtce/${project.version}</bundle>
-			
-			<config name="org.hbird.strand.routing">
-  				spaceSystemModelFilename=DummyModel.xml
-			</config>
 			<bundle>mvn:org.hbird.osgi/xtce-osgi/${project.version}</bundle>
 		</feature>
 		
