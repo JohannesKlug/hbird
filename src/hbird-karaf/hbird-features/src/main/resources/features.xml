@@ -12,11 +12,13 @@
 		<feature name="hbird-core" description="Hbird core component bundles" version="${project.version}">
 			<bundle dependency="true" start="false">mvn:commons-collections/commons-collections/3.2.1</bundle>
 			<bundle dependency="true" start="false">mvn:org.apache.commons/commons-lang3/3.1</bundle>
+			<bundle dependency="true" start="false">mvn:org.apache.commons/commons-math3/3.2</bundle>
 			<bundle dependency="true" start="false">mvn:commons-lang/commons-lang/2.6</bundle>
 			<bundle dependency="true" start="false">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.oro/2.0.8_6</bundle>
 			<bundle dependency="true" start="false">mvn:joda-time/joda-time/2.1</bundle>
 			<bundle dependency="true" start="false">mvn:com.googlecode.guava-osgi/guava-osgi/11.0.0</bundle>
 			<bundle dependency="true" start="false">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-io/1.4_3</bundle>
+			<bundle dependency="true" start="false">mvn:org.orekit/orekit/6.0</bundle>
 			<bundle start="false">mvn:org.hbird.core/commons/${project.version}</bundle>
 			<bundle start="false">mvn:org.hbird.core/space-system-model/${project.version}</bundle>
 			<feature version="${camel.version}">camel-blueprint</feature>
@@ -27,6 +29,10 @@
 			<feature version="${camel.version}">camel-mongodb</feature>
 			<feature version="${spring.version}">spring</feature>
 			<feature version="${spring.version}">spring-web</feature>
+			
+			<!-- FOR CZML_WRITER still not mavenised so it's a bit messy -->
+<!-- 			<bundle dependency="true" start="false">mvn:org.hamcrest/hamcrest-core/1.3</bundle> -->
+<!-- 			<bundle dependency="true" start="false">mvn:junit/junit/4.10</bundle> -->
 		</feature>
 		
 		<feature name="hbird-xtce" description="Hbird xtce space system bundles including OSGi service provision" version="${project.version}">
@@ -125,6 +131,12 @@
 			<bundle start="false">mvn:org.hbird.application/calibration/${project.version}</bundle>
 		</feature>
 		
+		<feature name="hbird-space-dynamics" version="${project.version}">
+			<feature  version="${project.version}">hbird-core</feature>
+			<bundle start="false">mvn:org.hbird.application/czml-writer/${project.version}</bundle>
+			<bundle start="false">mvn:org.hbird.application/space-dynamics/${project.version}</bundle>
+		</feature>
+		
 		<feature name="hbird-complete" 
 				 description="A complete single container installation of hbird and core applications. NOTE: Model and publisher bundles contain blueprints which wire up their services" 
 				 version="${project.version}">
@@ -136,6 +148,7 @@
 			<feature>hbird-commanding</feature>
 			<feature>hbird-calibration</feature>
 			<feature>hbird-parameter-archive</feature>
+			<feature>hbird-space-dynamics</feature>
 			<feature>hbird-halcyon</feature>
 			<feature>hbird-web-client</feature>
 		</feature>
