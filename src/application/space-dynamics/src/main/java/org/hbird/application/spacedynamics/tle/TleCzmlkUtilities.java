@@ -33,10 +33,8 @@ public class TleCzmlkUtilities {
 	 * @throws IOException
 	 * @throws OrekitException
 	 */
-	public static final String createCzmlFromTleFile(File tleFile, final PropagationFinishedListener finishedListener, String satelliteName, Frame frame, int propagationStep) throws IOException,
-			OrekitException {
-		final String czml = null;
-
+	public static final void asyncCreateCzmlFromTleFile(File tleFile, final CzmlPropagationFinishedListener finishedListener, String satelliteName, Frame frame, int propagationStep) throws IOException,
+	OrekitException {
 		final BufferedReader bufRead = new BufferedReader(new FileReader(tleFile));
 
 		int count = 0;
@@ -72,7 +70,40 @@ public class TleCzmlkUtilities {
 		}
 
 		bufRead.close();
-
-		return czml;
 	}
+
+	/**
+	 * Carries out the Propagation but waits for it to finish before returning the CZML String. Clients do not need to
+	 * provide their own listener for this method.
+	 * 
+	 * @param tleFile
+	 * @param satelliteName
+	 * @param eme2000
+	 * @param halfMinute
+	 * @return
+	 */
+	public static String syncCreateCzmlFromTleFile(File tleFile, String satelliteName, Frame frame, int propagationIntervalStep) {
+
+		SynchronousCzmlPropFinishedListener propFinishedListener = new SynchronousCzmlPropFinishedListener();
+
+		try {
+			asyncCreateCzmlFromTleFile(tleFile, propFinishedListener, satelliteName, frame, propagationIntervalStep);
+		}
+		catch (IOException | OrekitException e1) {
+			e1.printStackTrace();
+		}
+
+		while (propFinishedListener.isWaiting()) {
+			try {
+				Thread.sleep(200);
+			}
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return propFinishedListener.getCzml();
+	};
+
 }
+
