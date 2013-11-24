@@ -35,6 +35,7 @@
 				org.hbird.application.halcyon.commanding.CommandingResource,
 				org.hbird.application.halcyon.MongoParameterArchiveQueryResource,
 				org.hbird.application.halcyon.branding.BrandingResource,
+				org.hbird.application.halcyon.spacedyn.TleServiceResource
 			</param-value>
 		</init-param>
 		

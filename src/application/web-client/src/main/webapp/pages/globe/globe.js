@@ -29,17 +29,14 @@ function loadCzml() {
 }
 
 function setupGlobe() {
-	// Create the widget
 	cesiumWidget = new Cesium.Viewer('cesiumContainer');
 	
-	// Setup widget
-	cesiumWidget.centralBody.enableLighting = true;
-	
-	var terrainProvider = new Cesium.CesiumTerrainProvider({
-	    url : 'http://cesium.agi.com/smallterrain'
+	cesiumWidget.centralBody.terrainProvider = new Cesium.CesiumTerrainProvider({
+        url : 'http://cesium.agi.com/smallterrain'
 	});
-	cesiumWidget.centralBody.terrainProvider = terrainProvider;
 	
+	cesiumWidget.centralBody.enableLighting = true;
+    
 	// For dynamic object camera lock on
 	cesiumWidget.extend(Cesium.viewerDynamicObjectMixin);
 	
