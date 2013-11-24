@@ -46,7 +46,7 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 
 	private static final Marker SPACE_DYNAMICS = MarkerFactory.getMarker("SPACE DYNAMICS");
 
-	private final PropagationFinishedListener finishedListener;
+	private final CzmlPropagationFinishedListener finishedListener;
 
 	private final String spacecraftName;
 
@@ -75,7 +75,7 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 	 * @param spacecraftName
 	 *            the spacecraft name will be used as the CZML packet Label.
 	 */
-	CzmlGeneratorHandler(PropagationFinishedListener finishedListener, Frame frame, String spacecraftName) {
+	CzmlGeneratorHandler(CzmlPropagationFinishedListener finishedListener, Frame frame, String spacecraftName) {
 		this.finishedListener = finishedListener;
 		this.frame = frame;
 		this.spacecraftName = spacecraftName;
@@ -97,11 +97,11 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 		writeAvailability(spacecraftState, date);
 		writeLabel();
 		writeBillboard();
-		writePath();
+		writeSpacecraftPathPolyline();
 	}
 
-	private void writePath() {
-		PathCesiumWriter pathWriter = spacecraftPacket.getPathWriter();
+	private void writeSpacecraftPathPolyline() {
+		final PathCesiumWriter pathWriter = spacecraftPacket.getPathWriter();
 		pathWriter.open(czmlOutStream);
 
 		pathWriter.writeLeadTimeProperty(0.0);
@@ -159,7 +159,7 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 	 * @param spacecraftState
 	 * @param isLast
 	 */
-	private void createCzmlTimeTaggedPosition(final PropagationFinishedListener finishedListener, final Frame frame, SpacecraftState spacecraftState, boolean isLast) {
+	private void createCzmlTimeTaggedPosition(CzmlPropagationFinishedListener finishedListener, Frame frame, SpacecraftState spacecraftState, boolean isLast) {
 		PVCoordinates coords;
 		try {
 			coords = spacecraftState.getPVCoordinates(frame);
@@ -186,9 +186,8 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 
 			spacecraftPacket.close();
 			czmlOutStream.writeEndObject();
-			System.out.println(stringWriter.toString());
 
-			notifyFinishedListeners(finishedListener);
+			notifyFinishedListeners(finishedListener, stringWriter.toString());
 		}
 	}
 
@@ -252,10 +251,11 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 	 * Notify all {@link PropagationFinishedListener}s that the Propagation and CZML generation has finished.
 	 * 
 	 * @param finishedListener
+	 * @param string
 	 */
-	private final void notifyFinishedListeners(final PropagationFinishedListener finishedListener) {
+	private final void notifyFinishedListeners(final CzmlPropagationFinishedListener finishedListener, String czml) {
 		if (finishedListener != null) {
-			finishedListener.finished();
+			finishedListener.finished(czml);
 		}
 	}
 

@@ -13,6 +13,8 @@ import org.orekit.frames.FramesFactory;
 
 public class TleCzmlUtilitiesTest {
 
+	private static final String STRAND_1_NORAD_ID = "STRAND 1";
+
 	private static final int HALF_MINUTE = 30;
 
 	private boolean wait = true;
@@ -24,11 +26,21 @@ public class TleCzmlUtilitiesTest {
 	}
 
 	@Test
-	public void testCreateCzmlFromTleFileInertialFrame() throws IOException, OrekitException, InterruptedException {
+	public void testSyncCreateCzmlFromTleFileFixedFrame() throws IOException, OrekitException, InterruptedException {
 		final URL url = getClass().getResource("cubesatTle.txt");
 		final File testDataFile = new File(url.getPath());
 
-		TleCzmlkUtilities.createCzmlFromTleFile(testDataFile, new FinishedListener(), "STRAND 1", FramesFactory.getEME2000(), HALF_MINUTE);
+		String czml = TleCzmlkUtilities.syncCreateCzmlFromTleFile(testDataFile, STRAND_1_NORAD_ID, FramesFactory.getEME2000(), HALF_MINUTE);
+
+		System.out.println(czml);
+	}
+
+	@Test
+	public void testAsyncCreateCzmlFromTleFileInertialFrame() throws IOException, OrekitException, InterruptedException {
+		final URL url = getClass().getResource("cubesatTle.txt");
+		final File testDataFile = new File(url.getPath());
+
+		TleCzmlkUtilities.asyncCreateCzmlFromTleFile(testDataFile, new FinishedListener(), STRAND_1_NORAD_ID, FramesFactory.getEME2000(), HALF_MINUTE);
 
 		while (wait) {
 			Thread.sleep(500);
@@ -36,22 +48,23 @@ public class TleCzmlUtilitiesTest {
 	}
 
 	@Test
-	public void testCreateCzmlFromTleFileFixedFrame() throws IOException, OrekitException, InterruptedException {
+	public void testAsynCreateCzmlFromTleFileFixedFrame() throws IOException, OrekitException, InterruptedException {
 		final URL url = getClass().getResource("cubesatTle.txt");
 		final File testDataFile = new File(url.getPath());
 
-		TleCzmlkUtilities.createCzmlFromTleFile(testDataFile, new FinishedListener(), "STRAND 1", FramesFactory.getITRF2008(), HALF_MINUTE);
+		TleCzmlkUtilities.asyncCreateCzmlFromTleFile(testDataFile, new FinishedListener(), STRAND_1_NORAD_ID, FramesFactory.getITRF2008(), HALF_MINUTE);
 
 		while (wait) {
 			Thread.sleep(500);
 		}
 	}
 
-	private class FinishedListener implements PropagationFinishedListener {
+	private class FinishedListener implements CzmlPropagationFinishedListener {
 
 		@Override
-		public void finished() {
+		public void finished(String czml) {
 			wait = false;
+			System.out.println(czml);
 		}
 
 	}
