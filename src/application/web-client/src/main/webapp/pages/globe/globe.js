@@ -20,14 +20,30 @@ var cesiumWidget;
  * On page ready do the following.
  */
 jQuery(document).ready(function() {
+	loadCzml();
 	setupGlobe();
 });
 
+function loadCzml() {
+	
+}
+
 function setupGlobe() {
+	// Create the widget
 	cesiumWidget = new Cesium.Viewer('cesiumContainer');
-	var layers = cesiumWidget.centralBody.getImageryLayers();
+	
+	// Setup widget
 	cesiumWidget.centralBody.enableLighting = true;
 	
+	var terrainProvider = new Cesium.CesiumTerrainProvider({
+	    url : 'http://cesium.agi.com/smallterrain'
+	});
+	cesiumWidget.centralBody.terrainProvider = terrainProvider;
+	
+	// For dynamic object camera lock on
+	cesiumWidget.extend(Cesium.viewerDynamicObjectMixin);
+	
+	// Add dynamic CZML data source.
 	var czmlDataSource = new Cesium.CzmlDataSource();
     czmlDataSource.load(czml, 'Test CZML');
     cesiumWidget.dataSources.add(czmlDataSource);
