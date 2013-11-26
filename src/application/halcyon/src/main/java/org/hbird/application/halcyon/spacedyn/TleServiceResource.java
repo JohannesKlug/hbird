@@ -33,7 +33,8 @@ public class TleServiceResource extends OsgiReady {
 		final TleServices tleService = (TleServices) getServiceTracker().getService();
 		if (tleService != null) {
 			try {
-				return tleService.requestSyncOrbitPropagationCzml(satelliteName);
+				String czml = tleService.requestSyncOrbitPropagationCzml(satelliteName);
+				return czml;
 			}
 			catch (TleServiceException e) {
 				e.printStackTrace();

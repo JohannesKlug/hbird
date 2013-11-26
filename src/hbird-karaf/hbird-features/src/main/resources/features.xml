@@ -124,9 +124,9 @@
 		</feature>
 		
 		<feature name="hbird-space-dynamics" version="${project.version}">
-			<feature  version="${project.version}">hbird-core</feature>
+			<feature version="${project.version}">hbird-core</feature>
 			<bundle start="false">mvn:org.hbird.application/czml-writer/${project.version}</bundle>
-			<bundle start="false">mvn:org.hbird.application/space-dynamics/${project.version}</bundle>
+			<bundle start="true">mvn:org.hbird.application/space-dynamics/${project.version}</bundle>
 		</feature>
 		
 		<feature name="hbird-complete" 
