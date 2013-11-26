@@ -29,10 +29,6 @@
 			<feature version="${camel.version}">camel-mongodb</feature>
 			<feature version="${spring.version}">spring</feature>
 			<feature version="${spring.version}">spring-web</feature>
-			
-			<!-- FOR CZML_WRITER still not mavenised so it's a bit messy -->
-<!-- 			<bundle dependency="true" start="false">mvn:org.hamcrest/hamcrest-core/1.3</bundle> -->
-<!-- 			<bundle dependency="true" start="false">mvn:junit/junit/4.10</bundle> -->
 		</feature>
 		
 		<feature name="hbird-xtce" description="Hbird xtce space system bundles including OSGi service provision" version="${project.version}">

@@ -73,7 +73,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${surefire-plugin.version}</version>
 				<configuration>
 					<!-- Setting system properties apparently does not work. This blog post 
 						says it should: http://www.buildanddeploy.com/node/17 This JIRA entry says 
