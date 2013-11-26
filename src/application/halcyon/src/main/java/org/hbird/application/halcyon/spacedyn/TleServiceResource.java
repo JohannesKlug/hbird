@@ -40,9 +40,7 @@ public class TleServiceResource extends OsgiReady {
 				throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
 			}
 		}
-		else {
-			throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity("A " + TLE_OSGI_SERVICE + " is unavailable.").build());
-		}
+		throw new WebApplicationException(Response.status(Status.INTERNAL_SERVER_ERROR).entity("A " + TLE_OSGI_SERVICE + " is unavailable.").build());
 	}
 
 }
