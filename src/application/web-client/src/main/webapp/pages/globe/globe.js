@@ -1,47 +1,49 @@
-// Test
-var czml = [
-	{
-		"id" : "Strand-1",
-		"position": { 
-			"cartesian": [8.63517, 49.87147, 20.0]
-		},
-        "point": {
-            "color": { 
-            	"rgba": [255, 0, 0, 255] 
-            },
-            "pixelSize" : 5
-        }
-	}
-];
+// The root URL for the RESTful services
+var host = window.location.hostname;
+var url = "/hbird/halcyon/";
+var rootURL = location.protocol + "//" + host + ":" + location.port + url;
 
-var cesiumWidget;
+// Test
+var czml;
+
+var cesiumViewer;
 
 /**
  * On page ready do the following.
  */
 jQuery(document).ready(function() {
-	loadCzml();
 	setupGlobe();
+	loadCzml();
 });
 
 function loadCzml() {
-	
+	var url = rootURL + "navigation/tle/propagate/czml/STRAND 1";
+	$.getJSON(url, null, function(data, textStatus, jqXHR) {
+		czml = jQuery.parseJSON(jqXHR.responseText);
+
+		// Add dynamic CZML data source.
+		var czmlDataSource = new Cesium.CzmlDataSource();
+	    czmlDataSource.load(czml, 'Test CZML');
+	    cesiumWidget.dataSources.add(czmlDataSource);
+	    
+	}).fail(function() {
+		console.log("Error loading czml propagation");
+	}).done(function() {
+		console.log("Loading attempt complete");
+	}); 
 }
 
 function setupGlobe() {
-	cesiumWidget = new Cesium.Viewer('cesiumContainer');
+	cesiumViewer = new Cesium.CesiumWidget('cesiumContainer');
 	
-	cesiumWidget.centralBody.terrainProvider = new Cesium.CesiumTerrainProvider({
+	cesiumViewer.centralBody.terrainProvider = new Cesium.CesiumTerrainProvider({
         url : 'http://cesium.agi.com/smallterrain'
 	});
 	
-	cesiumWidget.centralBody.enableLighting = true;
+	cesiumViewer.centralBody.enableLighting = true;
     
 	// For dynamic object camera lock on
-	cesiumWidget.extend(Cesium.viewerDynamicObjectMixin);
+	cesiumViewer.extend(Cesium.viewerDynamicObjectMixin);
 	
-	// Add dynamic CZML data source.
-	var czmlDataSource = new Cesium.CzmlDataSource();
-    czmlDataSource.load(czml, 'Test CZML');
-    cesiumWidget.dataSources.add(czmlDataSource);
+	cesiumViewer.scene.moon = new Cesium.Moon();
 }

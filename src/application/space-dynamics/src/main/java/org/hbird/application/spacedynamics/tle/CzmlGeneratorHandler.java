@@ -87,7 +87,7 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 	 */
 	private final void setupWriters() {
 		czmlOutStream.setPrettyFormatting(true);
-		czmlOutStream.writeStartObject();
+		// czmlOutStream.writeStartObject();
 	}
 
 	@Override
@@ -185,7 +185,7 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 			writePositionProperty(dates, cartesians, frame);
 
 			spacecraftPacket.close();
-			czmlOutStream.writeEndObject();
+			// czmlOutStream.writeEndObject();
 
 			notifyFinishedListeners(finishedListener, stringWriter.toString());
 		}
