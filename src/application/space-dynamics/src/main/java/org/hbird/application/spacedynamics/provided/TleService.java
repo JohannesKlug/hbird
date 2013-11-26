@@ -36,13 +36,12 @@ public class TleService implements TleServices {
 				out.newLine();
 			}
 			out.close();
+			LOG.info("Loaded TLE data from Celestrak NORAD TLE for cubesats");
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		LOG.info("Loaded TLE data from Celestrak NORAD TLE for cubesats");
 
 	}
 
