@@ -24,7 +24,7 @@ function loadCzml() {
 		// Add dynamic CZML data source.
 		var czmlDataSource = new Cesium.CzmlDataSource();
 	    czmlDataSource.load(czml, 'Test CZML');
-	    cesiumWidget.dataSources.add(czmlDataSource);
+	    cesiumViewer.dataSources.add(czmlDataSource);
 	    
 	}).fail(function() {
 		console.log("Error loading czml propagation");
@@ -34,7 +34,7 @@ function loadCzml() {
 }
 
 function setupGlobe() {
-	cesiumViewer = new Cesium.CesiumWidget('cesiumContainer');
+	cesiumViewer = new Cesium.Viewer('cesiumContainer');
 	
 	cesiumViewer.centralBody.terrainProvider = new Cesium.CesiumTerrainProvider({
         url : 'http://cesium.agi.com/smallterrain'
@@ -44,6 +44,4 @@ function setupGlobe() {
     
 	// For dynamic object camera lock on
 	cesiumViewer.extend(Cesium.viewerDynamicObjectMixin);
-	
-	cesiumViewer.scene.moon = new Cesium.Moon();
 }
