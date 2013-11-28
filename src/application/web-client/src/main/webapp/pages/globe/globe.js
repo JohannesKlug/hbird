@@ -3,7 +3,6 @@ var host = window.location.hostname;
 var url = "/hbird/halcyon/";
 var rootURL = location.protocol + "//" + host + ":" + location.port + url;
 
-var czml;
 var cesiumViewer;
 var liveTmWebsocket;
 
@@ -11,43 +10,76 @@ var liveTmWebsocket;
  * On page ready do the following.
  */
 jQuery(document).ready(function() {
-	setupGlobe();
-	loadCzml();
 	setupWebsocket();
+	setupGlobe();
+	addSatelliteSelection();
 });
 
-function loadCzml() {
-	var url = rootURL + "navigation/tle/propagate/czml/STRAND 1";
+/**
+ * Add the add satellite input field to the controls section of the globe page. 
+ */
+function addSatelliteSelection() {
+	var controls = $("#controls");
+
+	var satSelectDiv = $("<div/>").attr("id", "satSelection").appendTo(controls);
+
+	var satSelectfield = $("<input type=search/>");
+
+	var form = $("<form id=satForm />").submit(function() {
+		loadCzml(satSelectfield.val());
+		return false;
+	}).appendTo(satSelectDiv);
+
+	satSelectfield.appendTo(form);
+}
+
+/**
+ * Requests an orbit propagation (as CZML) for the given satellite name via the
+ * Halcyon web service and loads the result into the globe.
+ * 
+ * @param String
+ *            satName the name of the satellite to add to the globe.
+ */
+function loadCzml(satName) {
+	var url = rootURL + "navigation/tle/propagate/czml/" + satName;
 	$.getJSON(url, null, function(data, textStatus, jqXHR) {
-		czml = jQuery.parseJSON(jqXHR.responseText);
+		var czml = jQuery.parseJSON(jqXHR.responseText);
 
 		// Add dynamic CZML data source.
 		var czmlDataSource = new Cesium.CzmlDataSource();
-	    czmlDataSource.load(czml, 'Test CZML');
-	    cesiumViewer.dataSources.add(czmlDataSource);
-	    
+		czmlDataSource.load(czml, 'Propagation for ' + satName);
+		cesiumViewer.dataSources.add(czmlDataSource);
+
 	}).fail(function() {
-		console.log("Error loading czml propagation");
-	}).done(function() {
-		console.log("Loading attempt complete");
-	}); 
+		console.log("Error loading czml propagation for satellite " + satName);
+	});
 }
 
+/**
+ * Creates the Cesium viewer and applies default hbird settings.
+ */
 function setupGlobe() {
 	cesiumViewer = new Cesium.Viewer('cesiumContainer');
-	
+
 	cesiumViewer.centralBody.terrainProvider = new Cesium.CesiumTerrainProvider({
-        url : 'http://cesium.agi.com/smallterrain'
+		url : 'http://cesium.agi.com/smallterrain'
 	});
-	
+
 	cesiumViewer.centralBody.enableLighting = true;
-    
+
 	// For dynamic object camera lock on
 	cesiumViewer.extend(Cesium.viewerDynamicObjectMixin);
 }
 
+/**
+ * Function called when a live telemetry parameter is received from the
+ * websocket.
+ * 
+ * @param parameter
+ *            the new tm paramter
+ */
 function parameterReceived(parameter) {
-	
+
 }
 
 /**
@@ -58,7 +90,8 @@ function setupWebsocket() {
 
 	if (location.protocol == "http:") {
 		wsProtocol = "ws:";
-	} else {
+	}
+	else {
 		wsProtocol = "wss:";
 	}
 
@@ -66,28 +99,29 @@ function setupWebsocket() {
 
 	liveTmWebsocket.onopen = function() {
 		$.pnotify({
-		    title: "System message",
-		    text: "Websocket connection established.",
-		    type: "info",
-		    icon: "'picon picon-network-wireless'"
-		});
-	};
-	
-	liveTmWebsocket.onerror = function() {
-		$.pnotify({
-		    title: "System message",
-		    text: "Websocket connection failed. Cannot receive live telemetry.",
-		    type: "error",
-		    icon: "'picon picon-network-wireless'"
+			title : "System message",
+			text : "Websocket connection established.",
+			type : "info",
+			icon : "'picon picon-network-wireless'"
 		});
 	};
 
-	// When we receive a message from the websocket first check if there are any widgets on the dashboard,
+	liveTmWebsocket.onerror = function() {
+		$.pnotify({
+			title : "System message",
+			text : "Websocket connection failed. Cannot receive live telemetry.",
+			type : "error",
+			icon : "'picon picon-network-wireless'"
+		});
+	};
+
+	// When we receive a message from the websocket first check if there are any
+	// widgets on the dashboard,
 	// if so, parse the message into a parameter object and call our handler.
 	liveTmWebsocket.onmessage = function(event) {
 		var message = $.parseJSON(event.data);
-		if(message.id === "LIVE_TM") {
-			if(Object.keys(hidgetMonitorMap).length > 0) {
+		if (message.id === "LIVE_TM") {
+			if (Object.keys(hidgetMonitorMap).length > 0) {
 				parameterReceived(message.content);
 			}
 		}
