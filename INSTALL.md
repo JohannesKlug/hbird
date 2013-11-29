@@ -1,7 +1,7 @@
 Karaf with Hummimgbird pre-deployed
 -----------------------------------
 
-Download the latest snapshot of a current Karaf with Hbird pre-deployed from here:
+Download the latest snapshot of a current Karaf (from which Hbird will automatically be deployed on first startup) from here:
 https://oss.sonatype.org/content/repositories/snapshots/org/hbird/karaf/hbird-platform/0.0.1-SNAPSHOT/
 
 If you'd rather do the installation yourself, follow the instructions below.
