@@ -11,9 +11,9 @@ If you're only interested in deploying and running Hummingbird, please follow th
 
 For further information, please refer to one of the following pages: 
 
-* "Github repository":https://github.com/JohannesKlug/hbird
-* "Wiki":https://github.com/JohannesKlug/hbird/wiki
-* "Facebook":http://www.facebook.com/pages/Hummingbird-Mission-Control-System/156087881111212
+* [Github repository](https://github.com/JohannesKlug/hbird)
+* [Wiki](https://github.com/JohannesKlug/hbird/wiki)
+* [Facebook](http://www.facebook.com/pages/Hummingbird-Mission-Control-System/156087881111212)
 
 ### Installation provisos
 
