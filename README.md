@@ -18,7 +18,7 @@ For further information, please refer to one of the following pages:
 ### Installation provisos
 
 ####Karaf and Maven
-Maven 3.1.0 is incompaiable with the karaf-maven-plugin:3.0.0-SNAPSHOT so you must use Maven 3.0.5 or lower for now.
+Maven 3.1.0 is incompatible with the karaf-maven-plugin:3.0.0-SNAPSHOT so you must use Maven 3.0.5 or lower for now.
 
 [See here for details in Karaf JIRA](https://issues.apache.org/jira/browse/KARAF-2395)
 
