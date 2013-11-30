@@ -1,3 +1,23 @@
+requirejs.config({
+    "baseUrl" : "../../js"
+});
+
+require([
+	"jquery",
+	"../Cesium/Cesium",
+	"json2",
+	"jquery.gracefulWebSocket",
+	"pines/jquery.pnotify.min",
+	"hbird/rootMenu"],
+	function($, cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
+		menu = hbirdMenu;
+		setupWebsocket();
+		setupGlobe();
+		addSatelliteSelection();
+		hbirdMenu.startMenu();
+	}
+);
+
 // The root URL for the RESTful services
 var host = window.location.hostname;
 var url = "/hbird/halcyon/";
@@ -5,32 +25,21 @@ var rootURL = location.protocol + "//" + host + ":" + location.port + url;
 
 var cesiumViewer;
 var liveTmWebsocket;
-
-/**
- * On page ready do the following.
- */
-jQuery(document).ready(function() {
-	setupWebsocket();
-	setupGlobe();
-	addSatelliteSelection();
-});
+var menu;
 
 /**
  * Add the add satellite input field to the controls section of the globe page. 
  */
 function addSatelliteSelection() {
-	var controls = $("#controls");
-
-	var satSelectDiv = $("<div/>").attr("id", "satSelection").appendTo(controls);
-
-	var satSelectfield = $("<input type=search/>");
 
 	var form = $("<form id=satForm />").submit(function() {
 		loadCzml(satSelectfield.val());
 		return false;
-	}).appendTo(satSelectDiv);
+	});
+	
+	$("<input type=search/>").appendTo(form);
 
-	satSelectfield.appendTo(form);
+	menu.addMenuItem(form);
 }
 
 /**
