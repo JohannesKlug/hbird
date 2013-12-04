@@ -10,6 +10,10 @@ html,body {
 	height: 100%;
 }
 
+#rootMenu {
+	margin-left: 2px;
+}
+
 .cesium-widget-credits {
 	display: none;
 }
@@ -23,4 +27,8 @@ html,body {
 	top: 4px;
 	left: 4px;
 	z-index: 100;
+}
+
+#jPanelMenu-menu {
+	overflow-y: auto;
 }

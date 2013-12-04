@@ -1,3 +1,5 @@
+// In case you are wondering, jquery is in the baseUrl dir and is called jquery.js so 
+// further config is not required.
 requirejs.config({
     baseUrl : "../../js",
     paths : {
@@ -14,7 +16,10 @@ requirejs.config({
     	},
     	"Cesium" : {
     		// This version of Cesium has no AMD support so we must export the Global.
-    		exports: "Cesium"
+    		exports : "Cesium"
+    	},
+    	"jquery.jpanelmenu.min" : {
+    		deps : ["jquery"]
     	}
     }
 });
@@ -35,26 +40,20 @@ function($, Cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
 
 	var cesiumViewer = null;
 	var liveTmWebsocket = null;
-	var satInput = null;
-
 
 	/**
 	 * Add the add satellite input field to the controls section of the globe page. 
 	 */
 	function addSatelliteSelection() {
-		var form = $("<form id=satForm />").submit(function() {
-			loadCzml(satSelectfield.val());
-			console.log("Returning false");
-			return false;
-		});
+		var satInput = $("<input type=search placeholder='search for a satellite' />");
 		
-		satInput = $("<input type=search placeholder='search for a satellite' />");
+		var form = $("<form id=satForm />").append(satInput);
 
-		hbirdMenu.addMenuItem(satInput, function() {
-			this.loadCzml(satSelectfield.val());
-			console.log("Returning false");
-			return false;
+		form.on("submit", function(e) {
+			e.preventDefault();
+			loadCzml($(this).find("input").val());
 		});
+		hbirdMenu.addMenuItem(form);
 	}
 
 	/**
@@ -70,12 +69,36 @@ function($, Cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
 			var czml = jQuery.parseJSON(jqXHR.responseText);
 
 			// Add dynamic CZML data source.
-			var czmlDataSource = new Cesium.CzmlDataSource();
-			czmlDataSource.load(czml, 'Propagation for ' + satName);
-			cesiumViewer.dataSources.add(czmlDataSource);
-
-		}).fail(function() {
+			try {
+				var czmlDataSource = new Cesium.CzmlDataSource();
+				czmlDataSource.load(czml, 'Propagation for ' + satName);
+				cesiumViewer.dataSources.add(czmlDataSource);
+			}
+			catch(error) {
+				$.pnotify({
+					title: "Globe error",
+					text: "Error loading and adding CZML to globe. " + error,
+					type: "error",
+					shadow: false
+				});
+				return;
+			}
+			$.pnotify({
+				title: "Globe info",
+				text: "Added " + satName,
+				type: "success",
+				shadow: false
+			});
+		}).fail(function(jqxhr, textStatus, error ) {
+			$.pnotify({
+				title: "Globe error",
+				text: error,
+				type: error,
+				shadow: false
+			});
 			console.log("Error loading czml propagation for satellite " + satName);
+			console.log(textStatus);
+			console.log(error);
 		});
 	}
 
