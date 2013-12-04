@@ -2,13 +2,15 @@
  * Defines the hbird rootMenu module.
  * Loads the jpanel Javascript and creates the hbird menu on the page.
  */
-define(["jquery", "jpanelmenu/jquery.jpanelmenu.min" ], function($, jPanel) {
+define(["jquery", "jpanelmenu/jquery.jpanelmenu" ], function($, jPanel) {
+	"use strict";
+	
 	var MENU_PLACEHOLDER = "hbirdRootMenu";
 	var MENU_TRIGGER = "menu-trigger";
 
 	var rootMenu = null;
 	var menuList = null;
-
+	
 	function createAndAddMenuTrigger() {
 		$("<img id=hbirdMenuTrigger class=" + MENU_TRIGGER + " src='../../images/metro/appbar.list.png' />").prependTo($("body"));
 	}
@@ -18,7 +20,7 @@ define(["jquery", "jpanelmenu/jquery.jpanelmenu.min" ], function($, jPanel) {
 	 */
 	function createAndAddMenuPlaceholder() {
 		var menu = $("<div id=" + MENU_PLACEHOLDER + " style='display: none; position: fixed; top: 64px; left: 4px;' />").prependTo($("body"));
-		menuList = $("<ul>").appendTo(menu);
+		menuList = $("<ul id=rootMenu>").appendTo(menu);
 	}
 
 	/**
@@ -26,16 +28,17 @@ define(["jquery", "jpanelmenu/jquery.jpanelmenu.min" ], function($, jPanel) {
 	 */
 	function attachMenu() {
 		rootMenu = $.jPanelMenu({
-			menu : "#" + MENU_PLACEHOLDER
+			menu : "#" + MENU_PLACEHOLDER,
+			keepEventHandlers : true,
+			duration: 50
 		});
 	}
 
 	function addMenuItem(jqObj, evtHandler) {
 		console.log("Adding menu " + jqObj);
-		jqObj.click(evtHandler);
 		menuList.append($("<li>").append(jqObj));
 	}
-	
+
 	createAndAddMenuTrigger();
 	createAndAddMenuPlaceholder();
 	attachMenu();
