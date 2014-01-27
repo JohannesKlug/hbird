@@ -1,8 +1,8 @@
 @import url(../../Cesium/Widgets/CesiumWidget/CesiumWidget.css);
+
 @import url(../../Cesium/Widgets/widgets.css);
 
-
-html, body {
+html,body {
 	padding: 0;
 	margin: 0;
 	overflow: hidden;
@@ -12,4 +12,11 @@ html, body {
 
 .cesium-widget-credits {
 	display: none;
+}
+
+#controls {
+	position: fixed;
+	top: 4px;
+	left: 4px;
+	z-index: 5;
 }
