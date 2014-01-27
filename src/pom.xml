@@ -54,7 +54,7 @@
 		<mockito.version>1.9.5-rc1</mockito.version>
 		<jersey.version>1.17</jersey.version>
 		<jersey.version>1.17</jersey.version>
-		<karaf.version>3.0.0.RC1</karaf.version>
+		<karaf.version>3.0.0</karaf.version>
 		<commons-io.version>1.4_3</commons-io.version>
 		<orekit.version>6.0</orekit.version>
 		<joda-time.version>2.1</joda-time.version>
@@ -416,7 +416,7 @@
 				<plugin>
 					<groupId>org.apache.karaf.tooling</groupId>
 					<artifactId>karaf-maven-plugin</artifactId>
-					<version>3.0.0-SNAPSHOT</version>
+					<version>${karaf.version}</version>
 					<extensions>true</extensions>
 				</plugin>
 			
@@ -442,15 +442,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<!-- Apache Snapshots plugin repo is required for the Karaf 3 snapshot maven 
-		plugin -->
-	<pluginRepositories>
-		<pluginRepository>
-			<id>apache.snapshots</id>
-			<url>http://repository.apache.org/snapshots/</url>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<!-- Add local project repo for non-maven dependecies. -->
 	<repositories>

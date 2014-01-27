@@ -108,14 +108,6 @@
 	</build>
 
 	<repositories>
-<!--		<repository>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<id>apache.snapshots</id>
-			<url>http://repository.apache.org/snapshots/</url>
-		</repository>-->
-
 		<!-- Repository dependency for Sonatype Snapshots repository (for hbird 
 			transport) -->
  		<repository>
@@ -151,21 +143,6 @@
 			<url>http://download.java.net/maven/2</url>
 		</repository>
 		
-		<!-- Apache Snapshots plugin repo is required for the Karaf 3 snapshot maven 
-		plugin -->
-		<repository>
-			<id>apache.snapshots</id>
-			<url>http://repository.apache.org/snapshots/</url>
-		</repository>
-
 	</repositories>
 	
-	<!-- Apache Snapshots plugin repo is required for the Karaf 3 snapshot maven 
-		plugin -->
-	<pluginRepositories>
-		<pluginRepository>
-			<id>apache.snapshots</id>
-			<url>http://repository.apache.org/snapshots/</url>
-		</pluginRepository>
-	</pluginRepositories>
 </project>
