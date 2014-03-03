@@ -1,7 +1,7 @@
 package org.hbird.application.spacedynamics.interfaces;
 
+import org.hbird.application.spacedynamics.czml.CzmlPropagationFinishedListener;
 import org.hbird.application.spacedynamics.exceptions.TleServiceException;
-import org.hbird.application.spacedynamics.tle.CzmlPropagationFinishedListener;
 import org.orekit.frames.Frame;
 
 public interface TleServices {

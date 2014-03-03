@@ -174,10 +174,46 @@ function($, Cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
 			}
 		};
 	}
+	
+	function loadGroundStations() {
+		// Change request to actual ground stations rather than defaults. This would require
+		// use of on MCS configured groundstation service to first get configured stations.
+		var url = rootURL + "groundstations/czml/default";
+		$.getJSON(url, null, function(data, textStatus, jqXHR) {
+			var czml = jQuery.parseJSON(jqXHR.responseText);
+
+			// Add dynamic CZML data source.
+			try {
+				var czmlDataSource = new Cesium.CzmlDataSource();
+				czmlDataSource.load(czml, "'Groundstations");
+				cesiumViewer.dataSources.add(czmlDataSource);
+			}
+			catch(error) {
+				$.pnotify({
+					title: "Globe error",
+					text: "Error loading and adding groundstation CZML to globe. " + error,
+					type: "error",
+					shadow: false
+				});
+				return;
+			}
+		}).fail(function(jqxhr, textStatus, error ) {
+			$.pnotify({
+				title: "Globe error",
+				text: error,
+				type: error,
+				shadow: false
+			});
+			console.log("Error loading czml for groundstations");
+			console.log(textStatus);
+			console.log(error);
+		});
+	}
 
 	setupWebsocket();
 	setupGlobe();
 	addSatelliteSelection();
+	loadGroundStations();
 	hbirdMenu.startMenu();	
 		
 });
