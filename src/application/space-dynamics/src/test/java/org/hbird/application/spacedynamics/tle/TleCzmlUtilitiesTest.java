@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import org.hbird.application.spacedynamics.czml.CzmlPropagationFinishedListener;
+import org.hbird.application.spacedynamics.czml.CzmlOrbitPropagationCalculator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.orekit.data.DataProvidersManager;
@@ -26,11 +28,11 @@ public class TleCzmlUtilitiesTest {
 	}
 
 	@Test
-	public void testSyncCreateCzmlFromTleFileFixedFrame() throws IOException, OrekitException, InterruptedException {
+	public void testSyncCreateCzmlFromTleFileFixedFrame() {
 		final URL url = getClass().getResource("cubesatTle.txt");
 		final File testDataFile = new File(url.getPath());
 
-		String czml = TleCzmlkUtilities.syncCreateCzmlFromTleFile(testDataFile, STRAND_1_NORAD_ID, FramesFactory.getEME2000(), HALF_MINUTE);
+		String czml = CzmlOrbitPropagationCalculator.syncCreateCzmlFromTleFile(testDataFile, STRAND_1_NORAD_ID, FramesFactory.getEME2000(), HALF_MINUTE);
 
 		System.out.println(czml);
 	}
@@ -40,7 +42,7 @@ public class TleCzmlUtilitiesTest {
 		final URL url = getClass().getResource("cubesatTle.txt");
 		final File testDataFile = new File(url.getPath());
 
-		TleCzmlkUtilities.asyncCreateCzmlFromTleFile(testDataFile, new FinishedListener(), STRAND_1_NORAD_ID, FramesFactory.getEME2000(), HALF_MINUTE);
+		CzmlOrbitPropagationCalculator.asyncCreateCzmlFromTleFile(testDataFile, new FinishedListener(), STRAND_1_NORAD_ID, FramesFactory.getEME2000(), HALF_MINUTE);
 
 		while (wait) {
 			Thread.sleep(500);
@@ -52,7 +54,7 @@ public class TleCzmlUtilitiesTest {
 		final URL url = getClass().getResource("cubesatTle.txt");
 		final File testDataFile = new File(url.getPath());
 
-		TleCzmlkUtilities.asyncCreateCzmlFromTleFile(testDataFile, new FinishedListener(), STRAND_1_NORAD_ID, FramesFactory.getITRF2008(), HALF_MINUTE);
+		CzmlOrbitPropagationCalculator.asyncCreateCzmlFromTleFile(testDataFile, new FinishedListener(), STRAND_1_NORAD_ID, FramesFactory.getITRF2008(), HALF_MINUTE);
 
 		while (wait) {
 			Thread.sleep(500);

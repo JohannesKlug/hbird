@@ -1,4 +1,4 @@
-package org.hbird.application.spacedynamics.tle;
+package org.hbird.application.spacedynamics.czml;
 
 public interface CzmlPropagationFinishedListener {
 	void finished(String czml);

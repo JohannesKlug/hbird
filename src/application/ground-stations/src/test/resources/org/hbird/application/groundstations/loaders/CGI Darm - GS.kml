@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+	<Document>
+		<Folder>
+			<Placemark>
+				<name>CGI Darmstadt - GS</name>
+				<description>CGI Darmstadt Groundstation</description>
+				<Point>
+					<coordinates>8.635179810225964,49.87154414773676,0</coordinates>
+				</Point>
+			</Placemark>
+
+			<Placemark id="KIS">
+				<name>Kiruna, Sweden (KIS)</name>
+				<Snippet>Kiruna, Sweden (KIS)</Snippet>
+				<Point>
+					<altitudeMode>relativeToGround</altitudeMode>
+					<coordinates>21.0622,67.8767</coordinates>
+				</Point>
+			</Placemark>
+		</Folder>
+	</Document>
+</kml>

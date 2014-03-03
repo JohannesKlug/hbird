@@ -1,16 +1,14 @@
-package org.hbird.application.spacedynamics.tle;
+package org.hbird.application.spacedynamics.czml;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringWriter;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import javax.xml.bind.DatatypeConverter;
-
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.hbird.application.spacedynamics.interfaces.PropagationFinishedListener;
+import org.hbird.core.commons.util.Base64Utils;
 import org.joda.time.DateTime;
 import org.orekit.errors.OrekitException;
 import org.orekit.errors.PropagationException;
@@ -35,7 +33,9 @@ import cesiumlanguagewriter.JulianDate;
 import cesiumlanguagewriter.LabelCesiumWriter;
 import cesiumlanguagewriter.PacketCesiumWriter;
 import cesiumlanguagewriter.PathCesiumWriter;
+import cesiumlanguagewriter.PolylineCesiumWriter;
 import cesiumlanguagewriter.PositionCesiumWriter;
+import cesiumlanguagewriter.PositionListCesiumWriter;
 
 final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 	private static final int INTERPOLATION_DEGREE = 5;
@@ -65,6 +65,8 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 
 	private final List<JulianDate> dates = new ArrayList<>();
 
+	private AbsoluteDate propagationStartDate;
+
 	/**
 	 * Constructor, initialises some fields and setsup the czml writers.
 	 * 
@@ -87,20 +89,51 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 	 */
 	private final void setupWriters() {
 		czmlOutStream.setPrettyFormatting(true);
-		// czmlOutStream.writeStartObject();
 	}
 
 	@Override
 	public void init(SpacecraftState spacecraftState, AbsoluteDate date) throws PropagationException {
+		czmlOutStream.writeStartSequence();
 		spacecraftPacket = czmlStreamWriter.openPacket(czmlOutStream);
 		spacecraftPacket.writeId(spacecraftName);
 		writeAvailability(spacecraftState, date);
+		propagationStartDate = spacecraftState.getDate();
 		writeLabel();
 		writeBillboard();
-		writeSpacecraftPathPolyline();
+		writeSpacecraftLeadTrailPolyline();
 	}
 
-	private void writeSpacecraftPathPolyline() {
+	private void writeOrbitPathPolyline() {
+		PacketCesiumWriter polylinesPacket = czmlStreamWriter.openPacket(czmlOutStream);
+		polylinesPacket.writeId(spacecraftName + "-propagation-polyline");
+		try {
+			polylinesPacket.writeAvailability(new JulianDate(new DateTime(propagationStartDate.toDate(TimeScalesFactory.getUTC()))), dates.get(dates.size() - 1));
+		}
+		catch (final OrekitException e) {
+			LOG.warn(SPACE_DYNAMICS, "Could not create orbit polyline. Orekit exception when getting UTC timescale. Indicates orkit config zip is corrupt or unreadable. Aborting CZML generation.");
+			polylinesPacket.close();
+			return;
+		}
+
+		PolylineCesiumWriter lineWriter = polylinesPacket.getPolylineWriter();
+		lineWriter.open(czmlOutStream);
+
+		lineWriter.writeColorProperty(250, 250, 250, 30);
+
+		lineWriter.close();
+
+		PositionListCesiumWriter vertexPositionWriter = polylinesPacket.getVertexPositionsWriter();
+		vertexPositionWriter.open(czmlOutStream);
+
+		vertexPositionWriter.writeReferenceFrame("INERTIAL");
+		vertexPositionWriter.writeReferences(Arrays.asList(new String[] { spacecraftName + ".position" }));
+
+		vertexPositionWriter.close();
+
+		polylinesPacket.close();
+	}
+
+	private void writeSpacecraftLeadTrailPolyline() {
 		final PathCesiumWriter pathWriter = spacecraftPacket.getPathWriter();
 		pathWriter.open(czmlOutStream);
 
@@ -121,7 +154,7 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 
 		String satPng = null;
 		try {
-			satPng = createBase64EncodedStringFromURL(this.getClass().getResource("satellite-32x32.png"));
+			satPng = Base64Utils.createBase64EncodedStringFromURL(this.getClass().getResource("satellite-32x32.png"));
 		}
 		catch (final IOException e) {
 			// TODO Auto-generated catch block
@@ -185,7 +218,10 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 			writePositionProperty(dates, cartesians, frame);
 
 			spacecraftPacket.close();
-			// czmlOutStream.writeEndObject();
+
+			writeOrbitPathPolyline();
+
+			czmlOutStream.writeEndSequence();
 
 			notifyFinishedListeners(finishedListener, stringWriter.toString());
 		}
@@ -257,23 +293,5 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 		if (finishedListener != null) {
 			finishedListener.finished(czml);
 		}
-	}
-
-	private static String createBase64EncodedStringFromURL(URL url) throws IOException {
-		final InputStream inputStream = url.openStream();
-		final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-		final byte[] buffer = new byte[4096];
-
-		int bytesRead;
-		while ((bytesRead = inputStream.read(buffer)) != -1) {
-			outputStream.write(buffer, 0, bytesRead);
-		}
-
-		outputStream.close();
-		inputStream.close();
-
-		final byte[] bytes = outputStream.toByteArray();
-		return "data:image/png;base64," + DatatypeConverter.printBase64Binary(bytes);
 	}
 }

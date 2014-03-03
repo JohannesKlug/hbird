@@ -1,16 +1,20 @@
-package org.hbird.application.spacedynamics.tle;
+package org.hbird.application.spacedynamics.czml;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.orekit.errors.OrekitException;
 import org.orekit.frames.Frame;
+import org.orekit.propagation.Propagator;
 import org.orekit.propagation.analytical.tle.TLE;
 import org.orekit.propagation.analytical.tle.TLEPropagator;
+import org.orekit.propagation.events.EventDetector;
 import org.orekit.time.AbsoluteDate;
 import org.orekit.time.TimeScalesFactory;
 
@@ -20,10 +24,59 @@ import org.orekit.time.TimeScalesFactory;
  * @author Mark Doyle
  * 
  */
-public class TleCzmlkUtilities {
+public class CzmlOrbitPropagationCalculator {
 
 	/** The remainder given by the modulus when we have read a TLE for a satellite */
 	private static final int SAT_NAME_LINE_ORDINAL = 0;
+
+	/**
+	 * The {@link Propagator} used in CZML generation.
+	 */
+	private Propagator propagator;
+
+	/**
+	 * Any {@link EventDetector}s to be used in the propagation.
+	 */
+	private List<EventDetector> eventDetectors;
+
+	/**
+	 * DEfault constructor which the propagators, detectors e can be injected or added as services.
+	 */
+	public CzmlOrbitPropagationCalculator() {
+		// Nothing to do.
+	}
+
+	public CzmlOrbitPropagationCalculator(Propagator propagator, List<EventDetector> eventDetectors) {
+		this.propagator = propagator;
+		this.eventDetectors = eventDetectors;
+	}
+
+	/**
+	 * 
+	 * @param tleFile
+	 * @param satNames
+	 * @return
+	 * @throws IOException
+	 * @throws OrekitException
+	 */
+	public final void asyncCreateCzml(final CzmlPropagationFinishedListener finishedListener, String satelliteName, Frame frame, int propagationStep) throws IOException, OrekitException {
+		final DateTime nowUtc = DateTime.now(DateTimeZone.UTC);
+		final DateTime tomorrowUtc = nowUtc.plusDays(1);
+
+		final AbsoluteDate now = new AbsoluteDate(nowUtc.toDate(), TimeScalesFactory.getUTC());
+		final AbsoluteDate tomorrow = new AbsoluteDate(tomorrowUtc.toDate(), TimeScalesFactory.getUTC());
+
+		propagator.setMasterMode(propagationStep, new CzmlGeneratorHandler(finishedListener, frame, satelliteName));
+		addEventDetectorsToPropagator();
+
+		propagator.propagate(now, tomorrow);
+	}
+
+	private void addEventDetectorsToPropagator() {
+		for (EventDetector detector : eventDetectors) {
+			propagator.addEventDetector(detector);
+		}
+	}
 
 	/**
 	 * 
@@ -103,6 +156,21 @@ public class TleCzmlkUtilities {
 		}
 
 		return propFinishedListener.getCzml();
-	};
+	}
+
+	public Propagator getPropagator() {
+		return propagator;
+	}
+
+	public void setPropagator(Propagator propagator) {
+		this.propagator = propagator;
+	}
+
+	public void addEventDetector(EventDetector detector) {
+		if (eventDetectors == null) {
+			eventDetectors = new ArrayList<>();
+		}
+		eventDetectors.add(detector);
+	}
 
 }
