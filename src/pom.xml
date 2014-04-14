@@ -41,7 +41,7 @@
 		<spring.version>3.1.4.RELEASE</spring.version>
 		<junit.version>4.10</junit.version>
 		<castor.version>1.3.2</castor.version>
-		<camel.version>2.11.0</camel.version>
+		<camel.version>2.12.3</camel.version>
 		<mysqlconnector.version>5.1.10</mysqlconnector.version>
 		<jencks.version>2.2</jencks.version>
 		<slf4j.version>1.6.4</slf4j.version>
@@ -54,7 +54,7 @@
 		<mockito.version>1.9.5-rc1</mockito.version>
 		<jersey.version>1.17</jersey.version>
 		<jersey.version>1.17</jersey.version>
-		<karaf.version>3.0.0</karaf.version>
+		<karaf.version>3.0.1</karaf.version>
 		<commons-io.version>1.4_3</commons-io.version>
 		<orekit.version>6.0</orekit.version>
 		<joda-time.version>2.1</joda-time.version>
@@ -314,33 +314,6 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.felix</groupId>
-										<artifactId>maven-bundle-plugin</artifactId>
-										<versionRange>[2.1.0,)</versionRange>
-										<goals>
-											<goal>manifest</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-
 				<plugin>
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>2.1</version>
@@ -414,7 +387,7 @@
 				<plugin>
 					<groupId>org.apache.karaf.tooling</groupId>
 					<artifactId>karaf-maven-plugin</artifactId>
-					<version>3.0.0-SNAPSHOT</version>
+					<version>${karaf.version}</version>
 					<extensions>true</extensions>
 				</plugin>
 
@@ -432,21 +405,17 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-
-		<plugins>
-			<plugin>
-				<groupId>org.apache.karaf.tooling</groupId>
-				<artifactId>karaf-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
 	</build>
 
-	<!-- Apache Snapshots plugin repo is required for the Karaf 3 snapshot maven 
-		plugin -->
+	<!-- Apache Snapshots plugin repo is required for the Karaf 3 snapshot maven plugin -->
 	<pluginRepositories>
 		<pluginRepository>
 			<id>apache.snapshots</id>
 			<url>http://repository.apache.org/snapshots/</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>apache</id>
+			<url>https://repository.apache.org/content/repositories/releases/</url>
 		</pluginRepository>
 	</pluginRepositories>
 
@@ -471,6 +440,14 @@
 			<layout>default</layout>
 			<snapshots>
 				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>apache</id>
+			<url>https://repository.apache.org/content/repositories/releases/</url>
+			<snapshots>
+				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 	</repositories>
