@@ -21,12 +21,6 @@
 			<bundle dependency="true" start="false">mvn:org.orekit/orekit/6.0</bundle>
 			<bundle start="false">mvn:org.hbird.core/commons/${project.version}</bundle>
 			<bundle start="false">mvn:org.hbird.core/space-system-model/${project.version}</bundle>
-			<feature version="${camel.version}">camel-blueprint</feature>
-			<feature version="${camel.version}">camel-spring</feature>
-			<feature version="${camel.version}">camel-stream</feature>
-			<feature version="${camel.version}">camel-mina2</feature>
-			<feature version="${camel.version}">camel-netty</feature>
-			<feature version="${camel.version}">camel-mongodb</feature>
 			<feature version="${spring.version}">spring</feature>
 			<feature version="${spring.version}">spring-web</feature>
 		</feature>

@@ -1,9 +1,8 @@
 <?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>org.hbird.karaf</groupId>
 		<artifactId>karaf-parent</artifactId>
@@ -19,19 +18,19 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
-			<!-- scope is compile so all features (there is only one) are installed 
-				into startup.properties and the feature repo itself is not installed -->
+			<!-- scope is compile so all features (there is only one) are installed into startup.properties and the feature repo itself 
+				is not installed -->
 			<groupId>org.apache.karaf.features</groupId>
 			<artifactId>framework</artifactId>
 			<version>${karaf.version}</version>
 			<type>kar</type>
 		</dependency>
 		<dependency>
-			<!-- scope is runtime so the feature repo is listed in the features service 
-				config file, and features may be installed using the karaf-maven-plugin configuration -->
+			<!-- scope is runtime so the feature repo is listed in the features service config file, and features may be installed 
+				using the karaf-maven-plugin configuration -->
 			<groupId>org.apache.karaf.features</groupId>
 			<artifactId>standard</artifactId>
 			<version>${karaf.version}</version>
@@ -40,8 +39,8 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<!-- scope is runtime so the feature repo is listed in the features service 
-				config file, and features may be installed using the karaf-maven-plugin configuration -->
+			<!-- scope is runtime so the feature repo is listed in the features service config file, and features may be installed 
+				using the karaf-maven-plugin configuration -->
 			<groupId>org.apache.karaf.features</groupId>
 			<artifactId>enterprise</artifactId>
 			<version>${karaf.version}</version>
@@ -50,8 +49,8 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<!-- scope is runtime so the feature repo is listed in the features service 
-				config file, and features may be installed using the karaf-maven-plugin configuration -->
+			<!-- scope is runtime so the feature repo is listed in the features service config file, and features may be installed 
+				using the karaf-maven-plugin configuration -->
 			<groupId>org.apache.karaf.features</groupId>
 			<artifactId>spring</artifactId>
 			<version>${karaf.version}</version>
@@ -85,7 +84,17 @@
 				<extensions>true</extensions>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<id>install-kar</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>install-kars</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>package</id>
+						<goals>
+							<goal>instance-create-archive</goal>
+						</goals>
 					</execution>
 				</executions>
 				<configuration>
@@ -95,12 +104,24 @@
 						<feature>standard</feature>
 						<feature>enterprise</feature>
 						<feature>management</feature>
+						<feature>ssh</feature>
+						<feature>config</feature>
+						<feature>deployers</feature>
+						<feature>region</feature>
+						<feature>package</feature>
+						<feature>kar</feature>
 						<feature>webconsole</feature>
-						<feature>camel</feature>
-						<feature>war</feature>
-						<feature>hbird-complete</feature>
+						<feature>camel-core</feature>
+						<feature>camel-netty</feature>
+						<feature>camel-blueprint</feature>
+						<feature>camel-spring</feature>
+						<feature>camel-stream</feature>
+						<feature>camel-mina2</feature>
+						<feature>camel-mongodb</feature>
 					</bootFeatures>
 					<installedFeatures>
+						<feature>wrapper</feature>
+						<!-- <feature>hbird-complete</feature> -->
 					</installedFeatures>
 				</configuration>
 			</plugin>
@@ -108,17 +129,6 @@
 	</build>
 
 	<repositories>
-		<!-- Repository dependency for Sonatype Snapshots repository (for hbird 
-			transport) -->
- 		<repository>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<id>sonatyperepository</id>
-			<name>sonatyperepository</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		</repository>
-
 		<repository>
 			<id>servicemix</id>
 			<name>servicemix</name>
@@ -136,13 +146,23 @@
 			<name>spring-external</name>
 			<url>http://repository.springsource.com/maven/bundles/external</url>
 		</repository>
-		
+
 		<repository>
 			<id>m2.java.net</id>
 			<name>Java.net Maven 2 Repository</name>
 			<url>http://download.java.net/maven/2</url>
 		</repository>
-		
+
+		<!-- Repository dependency for Sonatype Snapshots repository for HBird -->
+		<repository>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<id>sonatyperepository</id>
+			<name>sonatyperepository</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</repository>
+
 	</repositories>
-	
+
 </project>
