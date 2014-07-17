@@ -1,12 +1,7 @@
 package org.hbird.application.groundstations.eventdetectors;
 
 import org.hbird.application.groundstations.Groundstation;
-import org.orekit.bodies.BodyShape;
-import org.orekit.bodies.GeodeticPoint;
-import org.orekit.bodies.OneAxisEllipsoid;
 import org.orekit.errors.OrekitException;
-import org.orekit.frames.FramesFactory;
-import org.orekit.frames.TopocentricFrame;
 import org.orekit.propagation.events.CircularFieldOfViewDetector;
 
 public abstract class CircularFieldOfViewDetectorFactory {
@@ -20,10 +15,11 @@ public abstract class CircularFieldOfViewDetectorFactory {
 	}
 
 	public static final CircularFieldOfViewDetector createFrom(Groundstation station) throws OrekitException {
-		GeodeticPoint point = new GeodeticPoint(station.getLatitudeDegrees(), station.getLongitudeDegrees(), station.getAlititude());
-
-		BodyShape earth = new OneAxisEllipsoid(EQUATORIAL_RADIUS_METRES, FLATTENING, FramesFactory.getITRF2008());
-		TopocentricFrame sta1Frame = new TopocentricFrame(earth, point, station.getName());
-
+		// GeodeticPoint point = new GeodeticPoint(station.getLatitudeDegrees(), station.getLongitudeDegrees(),
+		// station.getAlititude());
+		//
+		// BodyShape earth = new OneAxisEllipsoid(EQUATORIAL_RADIUS_METRES, FLATTENING, FramesFactory.getITRF2008());
+		// TopocentricFrame sta1Frame = new TopocentricFrame(earth, point, station.getName());
+		throw new UnsupportedOperationException("Not implemented!");
 	}
 }

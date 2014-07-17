@@ -29,18 +29,18 @@ public class DefaultGroundstationsLoader {
 
 	private static final String HBIRD_DEFAULT_GROUNDSTATIONS_KML = "Hbird-default-groundstations.kml";
 
-	private static List<Groundstation> loadAllGroundStationsFromFile(InputStream stream) throws InvalidGroundstationKml {
+	private static List<Groundstation> loadAllGroundStationsFrom(InputStream stream) throws InvalidGroundstationKml {
 		Kml kml = Kml.unmarshal(stream);
 		Feature feature = kml.getFeature();
 		return processFeature(feature);
 	}
 
-	public static List<Groundstation> loadAllGroundStationsFromFile(String path) throws InvalidGroundstationKml {
-		if (StringUtils.isBlank(path)) {
+	public static List<Groundstation> loadAllGroundStationsFrom(String filePath) throws InvalidGroundstationKml {
+		if (StringUtils.isBlank(filePath)) {
 			throw new IllegalArgumentException("Groundstations KML file direcotry path is null or blank.");
 		}
 
-		File gsFile = new File(path);
+		File gsFile = new File(filePath);
 		Kml kml = Kml.unmarshal(gsFile);
 		Feature feature = kml.getFeature();
 		return processFeature(feature);
@@ -82,7 +82,7 @@ public class DefaultGroundstationsLoader {
 
 	public static List<Groundstation> loadDefaultGroundstations() throws InvalidGroundstationKml {
 		InputStream stream = DefaultGroundstationsLoader.class.getResourceAsStream(HBIRD_DEFAULT_GROUNDSTATIONS_KML);
-		List<Groundstation> stations = loadAllGroundStationsFromFile(stream);
+		List<Groundstation> stations = loadAllGroundStationsFrom(stream);
 		try {
 			stream.close();
 		}

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>org.hbird.application</groupId>
 		<artifactId>application</artifactId>
@@ -13,8 +13,8 @@
 	<name>Hbird :: Application :: web-client</name>
 
 	<dependencies>
-		<!-- Override the scope of these artifacts from the parent project hummingbird. They are provided by the container so we don't need 
-			to bloat our war. -->
+		<!-- Override the scope of these artifacts from the parent project hummingbird. They are provided by the container so we 
+			don't need to bloat our war. -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -65,6 +65,7 @@
 					<instructions>
 						<Import-Package>
 							org.eclipse.jetty.servlet,
+							com.sun.xml.bind.v2,
 							*
 						</Import-Package>
 						<Bundle-Activator>org.hbird.application.webclient.Activator</Bundle-Activator>

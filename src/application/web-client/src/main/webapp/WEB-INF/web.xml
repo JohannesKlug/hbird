@@ -14,7 +14,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>hbird-web-client</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/client/*</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>

@@ -46,6 +46,10 @@ public class CzmlOrbitPropagationCalculator {
 		// Nothing to do.
 	}
 
+	public CzmlOrbitPropagationCalculator(Propagator propagator) {
+		this.propagator = propagator;
+	}
+
 	public CzmlOrbitPropagationCalculator(Propagator propagator, List<EventDetector> eventDetectors) {
 		this.propagator = propagator;
 		this.eventDetectors = eventDetectors;

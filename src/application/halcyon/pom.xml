@@ -120,12 +120,14 @@
 			<groupId>org.hbird.application</groupId>
 			<artifactId>space-dynamics</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 			<type>bundle</type>
 		</dependency>
 		<dependency>
 			<groupId>org.hbird.application</groupId>
 			<artifactId>ground-stations</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 			<type>bundle</type>
 		</dependency>
 	</dependencies>
@@ -189,6 +191,7 @@
 							org.osgi.service.blueprint.container,
 							com.sun.jersey.spi.spring.container.servlet,
 							org.eclipse.jetty.websocket,
+							com.sun.xml.bind.v2
 						</Import-Package>
 						<Webapp-Context>hbird</Webapp-Context>
 						<Web-ContextPath>hbird</Web-ContextPath>

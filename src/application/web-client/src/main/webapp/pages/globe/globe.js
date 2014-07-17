@@ -40,6 +40,9 @@ function($, Cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
 
 	var cesiumViewer = null;
 	var liveTmWebsocket = null;
+	
+	// API Key for bing maps - non-profit use only!
+	Cesium.BingMapsApi.defaultKey = 'ApFoUMQn6s0k_GwSC_I1DJS-THYlZQfTZIdDY1JsTNB_poyAKVxOIY8jVhtepTNT';	
 
 	/**
 	 * Add the add satellite input field to the controls section of the globe page. 
