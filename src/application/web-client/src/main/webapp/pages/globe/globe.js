@@ -1,36 +1,34 @@
+// Hbird Globe.
+// @author Mark Doyle
+
 // In case you are wondering, jquery is in the baseUrl dir and is called jquery.js so 
 // further config is not required.
 requirejs.config({
-    baseUrl : "../../js",
-    paths : {
-    	"Cesium" : "../Cesium/Cesium",
-    	"jquery.pnotify.min" : "pines/jquery.pnotify.min",
-    	"rootMenu" : "hbird/rootMenu"
-    },
-    shim : {
-    	"jquery.pnotify.min" : {
-    		deps : ["jquery"]
-    	},
-    	"jquery.gracefulWebSocket" : {
-    		deps : ["jquery"]
-    	},
-    	"Cesium" : {
-    		// This version of Cesium has no AMD support so we must export the Global.
-    		exports : "Cesium"
-    	},
-    	"jquery.jpanelmenu.min" : {
-    		deps : ["jquery"]
-    	}
-    }
+	baseUrl : "../../js",
+	paths : {
+		"Cesium" : "Cesium/Cesium",
+		"jquery.pnotify.min" : "pines/jquery.pnotify.min",
+		"rootMenu" : "hbird/rootMenu"
+	},
+	shim : {
+		"jquery.pnotify.min" : {
+			deps : [ "jquery" ]
+		},
+		"jquery.gracefulWebSocket" : {
+			deps : [ "jquery" ]
+		},
+		"Cesium" : {
+			// This version (pre-built minified) of Cesium has no AMD support so
+			// we must export the Global.
+			exports : "Cesium"
+		},
+		"jquery.jpanelmenu.min" : {
+			deps : [ "jquery" ]
+		}
+	}
 });
 
-require([
-"jquery",
-"Cesium",
-"json2",
-"jquery.gracefulWebSocket",
-"jquery.pnotify.min",
-"rootMenu"],
+require([ "jquery", "Cesium", "json2", "jquery.gracefulWebSocket", "jquery.pnotify.min", "rootMenu" ], 
 function($, Cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
 
 	// The root URL for the RESTful services
@@ -40,16 +38,17 @@ function($, Cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
 
 	var cesiumViewer = null;
 	var liveTmWebsocket = null;
-	
+
 	// API Key for bing maps - non-profit use only!
-	Cesium.BingMapsApi.defaultKey = 'ApFoUMQn6s0k_GwSC_I1DJS-THYlZQfTZIdDY1JsTNB_poyAKVxOIY8jVhtepTNT';	
+	Cesium.BingMapsApi.defaultKey = 'ApFoUMQn6s0k_GwSC_I1DJS-THYlZQfTZIdDY1JsTNB_poyAKVxOIY8jVhtepTNT';
 
 	/**
-	 * Add the add satellite input field to the controls section of the globe page. 
+	 * Add the add satellite input field to the controls section of the globe
+	 * page.
 	 */
 	function addSatelliteSelection() {
 		var satInput = $("<input type=search placeholder='search for a satellite' />");
-		
+
 		var form = $("<form id=satForm />").append(satInput);
 
 		form.on("submit", function(e) {
@@ -60,8 +59,8 @@ function($, Cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
 	}
 
 	/**
-	 * Requests an orbit propagation (as CZML) for the given satellite name via the
-	 * Halcyon web service and loads the result into the globe.
+	 * Requests an orbit propagation (as CZML) for the given satellite name via
+	 * the Halcyon web service and loads the result into the globe.
 	 * 
 	 * @param String
 	 *            satName the name of the satellite to add to the globe.
@@ -77,27 +76,27 @@ function($, Cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
 				czmlDataSource.load(czml, 'Propagation for ' + satName);
 				cesiumViewer.dataSources.add(czmlDataSource);
 			}
-			catch(error) {
+			catch (error) {
 				$.pnotify({
-					title: "Globe error",
-					text: "Error loading and adding CZML to globe. " + error,
-					type: "error",
-					shadow: false
+					title : "Globe error",
+					text : "Error loading and adding CZML to globe. " + error,
+					type : "error",
+					shadow : false
 				});
 				return;
 			}
 			$.pnotify({
-				title: "Globe info",
-				text: "Added " + satName,
-				type: "success",
-				shadow: false
+				title : "Globe info",
+				text : "Added " + satName,
+				type : "success",
+				shadow : false
 			});
-		}).fail(function(jqxhr, textStatus, error ) {
+		}).fail(function(jqxhr, textStatus, error) {
 			$.pnotify({
-				title: "Globe error",
-				text: error,
-				type: error,
-				shadow: false
+				title : "Globe error",
+				text : error,
+				type : error,
+				shadow : false
 			});
 			console.log("Error loading czml propagation for satellite " + satName);
 			console.log(textStatus);
@@ -111,11 +110,7 @@ function($, Cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
 	function setupGlobe() {
 		cesiumViewer = new Cesium.Viewer('cesiumContainer');
 
-		cesiumViewer.centralBody.terrainProvider = new Cesium.CesiumTerrainProvider({
-			url : 'http://cesium.agi.com/smallterrain'
-		});
-
-		cesiumViewer.centralBody.enableLighting = true;
+		cesiumViewer.enableLighting = true;
 
 		// For dynamic object camera lock on
 		cesiumViewer.extend(Cesium.viewerDynamicObjectMixin);
@@ -165,9 +160,7 @@ function($, Cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
 			});
 		};
 
-		// When we receive a message from the websocket first check if there are any
-		// widgets on the dashboard,
-		// if so, parse the message into a parameter object and call our handler.
+		// FIXME THis is CTLRV from hboard..
 		liveTmWebsocket.onmessage = function(event) {
 			var message = $.parseJSON(event.data);
 			if (message.id === "LIVE_TM") {
@@ -177,10 +170,10 @@ function($, Cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
 			}
 		};
 	}
-	
+
 	function loadGroundStations() {
-		// Change request to actual ground stations rather than defaults. This would require
-		// use of on MCS configured groundstation service to first get configured stations.
+		// Change request to actual ground stations rather than defaults. This would require use of 
+		// an MCS configured groundstation service to first get configured stations.
 		var url = rootURL + "groundstations/czml/default";
 		$.getJSON(url, null, function(data, textStatus, jqXHR) {
 			var czml = jQuery.parseJSON(jqXHR.responseText);
@@ -191,21 +184,21 @@ function($, Cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
 				czmlDataSource.load(czml, "'Groundstations");
 				cesiumViewer.dataSources.add(czmlDataSource);
 			}
-			catch(error) {
+			catch (error) {
 				$.pnotify({
-					title: "Globe error",
-					text: "Error loading and adding groundstation CZML to globe. " + error,
-					type: "error",
-					shadow: false
+					title : "Globe error",
+					text : "Error loading and adding groundstation CZML to globe. " + error,
+					type : "error",
+					shadow : false
 				});
 				return;
 			}
-		}).fail(function(jqxhr, textStatus, error ) {
+		}).fail(function(jqxhr, textStatus, error) {
 			$.pnotify({
-				title: "Globe error",
-				text: error,
-				type: error,
-				shadow: false
+				title : "Globe error",
+				text : error,
+				type : error,
+				shadow : false
 			});
 			console.log("Error loading czml for groundstations");
 			console.log(textStatus);
@@ -217,8 +210,6 @@ function($, Cesium, json2, graceWebSocket, pnotify, hbirdMenu) {
 	setupGlobe();
 	addSatelliteSelection();
 	loadGroundStations();
-	hbirdMenu.startMenu();	
-		
+	hbirdMenu.startMenu();
+
 });
-
-

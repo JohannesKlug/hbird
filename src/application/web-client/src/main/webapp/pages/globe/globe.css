@@ -1,6 +1,6 @@
-@import url(../../Cesium/Widgets/CesiumWidget/CesiumWidget.css);
+@import url(../../js/Cesium/Widgets/CesiumWidget/CesiumWidget.css);
 
-@import url(../../Cesium/Widgets/widgets.css);
+@import url(../../js/Cesium/Widgets/widgets.css);
 
 html,body {
 	padding: 0;

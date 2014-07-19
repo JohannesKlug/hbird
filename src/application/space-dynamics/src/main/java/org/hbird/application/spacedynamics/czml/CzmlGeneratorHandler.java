@@ -1,5 +1,19 @@
 package org.hbird.application.spacedynamics.czml;
 
+import cesiumlanguagewriter.BillboardCesiumWriter;
+import cesiumlanguagewriter.Cartesian;
+import cesiumlanguagewriter.CesiumInterpolationAlgorithm;
+import cesiumlanguagewriter.CesiumOutputStream;
+import cesiumlanguagewriter.CesiumResourceBehavior;
+import cesiumlanguagewriter.CesiumStreamWriter;
+import cesiumlanguagewriter.JulianDate;
+import cesiumlanguagewriter.LabelCesiumWriter;
+import cesiumlanguagewriter.PacketCesiumWriter;
+import cesiumlanguagewriter.PathCesiumWriter;
+import cesiumlanguagewriter.PolylineCesiumWriter;
+import cesiumlanguagewriter.PositionCesiumWriter;
+import cesiumlanguagewriter.PositionListCesiumWriter;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -22,20 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
-
-import cesiumlanguagewriter.BillboardCesiumWriter;
-import cesiumlanguagewriter.Cartesian;
-import cesiumlanguagewriter.CesiumInterpolationAlgorithm;
-import cesiumlanguagewriter.CesiumOutputStream;
-import cesiumlanguagewriter.CesiumResourceBehavior;
-import cesiumlanguagewriter.CesiumStreamWriter;
-import cesiumlanguagewriter.JulianDate;
-import cesiumlanguagewriter.LabelCesiumWriter;
-import cesiumlanguagewriter.PacketCesiumWriter;
-import cesiumlanguagewriter.PathCesiumWriter;
-import cesiumlanguagewriter.PolylineCesiumWriter;
-import cesiumlanguagewriter.PositionCesiumWriter;
-import cesiumlanguagewriter.PositionListCesiumWriter;
 
 final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 	private static final int INTERPOLATION_DEGREE = 5;
@@ -126,7 +126,7 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 		vertexPositionWriter.open(czmlOutStream);
 
 		vertexPositionWriter.writeReferenceFrame("INERTIAL");
-		vertexPositionWriter.writeReferences(Arrays.asList(new String[] { spacecraftName + ".position" }));
+		vertexPositionWriter.writeReferences(Arrays.asList(new String[] { spacecraftName + "#position" }));
 
 		vertexPositionWriter.close();
 
