@@ -36,7 +36,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>czml-writer</groupId>
+			<groupId>org.hbird.application</groupId>
 			<artifactId>czml-writer</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
