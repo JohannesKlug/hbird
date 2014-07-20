@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.hbird.application.spacedynamics.interfaces.PropagationFinishedListener;
 import org.hbird.core.commons.util.Base64Utils;
 import org.joda.time.DateTime;
 import org.orekit.errors.OrekitException;
@@ -284,7 +283,7 @@ final class CzmlGeneratorHandler implements OrekitFixedStepHandler {
 	}
 
 	/**
-	 * Notify all {@link PropagationFinishedListener}s that the Propagation and CZML generation has finished.
+	 * Notify all {@link CzmlPropagationFinishedListener}s that the Propagation and CZML generation has finished.
 	 * 
 	 * @param finishedListener
 	 * @param string

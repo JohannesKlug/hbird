@@ -18,13 +18,23 @@ import org.orekit.frames.FramesFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Provider of {@link TleServices}
+ * 
+ * @author Mark Doyle
+ * 
+ */
 public class TleBasedService implements TleServices {
 	private static final Logger LOG = LoggerFactory.getLogger(TleBasedService.class);
 
+	/** Default propagation interval */
 	private static final int HALF_MINUTE = 30;
 
 	private final File tleFile = new File("tleData.txt");
 
+	/**
+	 * Loads the Celestrak NORAD TLE catalogue for cubesats from the web.
+	 */
 	public void loadTleFile() {
 		try {
 			URL tleUrl = new URL("http://www.celestrak.com/NORAD/elements/cubesat.txt");
@@ -39,8 +49,7 @@ public class TleBasedService implements TleServices {
 			LOG.info("Loaded TLE data from Celestrak NORAD TLE for cubesats");
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("Could not load TLE data from Celestrak NORAD TLE for cubesats", e);
 		}
 
 	}
@@ -57,7 +66,12 @@ public class TleBasedService implements TleServices {
 
 	@Override
 	public String requestSyncOrbitPropagationCzml(String satelliteName) {
-		return CzmlOrbitPropagationCalculator.syncCreateCzmlFromTleFile(tleFile, satelliteName, FramesFactory.getEME2000(), HALF_MINUTE);
+		return requestSyncOrbitPropagationCzml(satelliteName, HALF_MINUTE);
+	}
+
+	@Override
+	public String requestSyncOrbitPropagationCzml(String satelliteName, int interval) {
+		return CzmlOrbitPropagationCalculator.syncCreateCzmlFromTleFile(tleFile, satelliteName, FramesFactory.getEME2000(), interval);
 	}
 
 }

@@ -8,6 +8,12 @@ import org.orekit.errors.OrekitException;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+/**
+ * Run when this Hbird space dynamics bundle is started.
+ * 
+ * @author Mark Doyle
+ * 
+ */
 public class Activator implements BundleActivator {
 
 	@Override
@@ -20,6 +26,13 @@ public class Activator implements BundleActivator {
 		// Nothing to do
 	}
 
+	/**
+	 * Configured orekit with the necessary orekit data archive. This is bundled within the
+	 * hbird space dynamics bundle.
+	 * 
+	 * @param context
+	 *            this bundle's context.
+	 */
 	public static final void setupOrekit(BundleContext context) {
 		URL dataUrl = context.getBundle().getResource("/orekit-data.zip");
 		try {
