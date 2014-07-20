@@ -9,10 +9,22 @@ import org.hbird.application.groundstations.Groundstation;
 import org.hbird.application.groundstations.exceptions.InvalidGroundstationKml;
 import org.junit.Test;
 
+/**
+ * Unit tests for the {@link DefaultGroundstationsLoader}.
+ * 
+ * @author Mark Doyle
+ * 
+ */
 public class DefaultGroundstationsLoaderTest {
 
+	/**
+	 * Tests a nominal use case with a valid KML file.
+	 * 
+	 * @throws InvalidGroundstationKml
+	 * @throws URISyntaxException
+	 */
 	@Test
-	public void test() throws InvalidGroundstationKml, URISyntaxException {
+	public void testNormalSuccess() throws InvalidGroundstationKml, URISyntaxException {
 		List<Groundstation> actual = DefaultGroundstationsLoader.loadDefaultGroundstations();
 		assertEquals("There should be two ground stations loaded.", actual.size(), 2);
 

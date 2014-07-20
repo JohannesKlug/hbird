@@ -22,6 +22,12 @@ import de.micromata.opengis.kml.v_2_2_0.Folder;
 import de.micromata.opengis.kml.v_2_2_0.Kml;
 import de.micromata.opengis.kml.v_2_2_0.Placemark;
 
+/**
+ * Loads GroundStations from a KML file and provides functionality to load a default set of {@link Groundstation}s.
+ * 
+ * @author Mark Doyle
+ * 
+ */
 public class DefaultGroundstationsLoader {
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultGroundstationsLoader.class);
 
@@ -35,6 +41,15 @@ public class DefaultGroundstationsLoader {
 		return processFeature(feature);
 	}
 
+	/**
+	 * Loads {@link Groundstation}s from a KML file.
+	 * 
+	 * @param filePath
+	 *            the location of the KML file describing the {@link Groundstation}s.
+	 * @return a List of {@link Groundstation}s.
+	 * @throws InvalidGroundstationKml
+	 *             thrown if the KML file is invalid.
+	 */
 	public static List<Groundstation> loadAllGroundStationsFrom(String filePath) throws InvalidGroundstationKml {
 		if (StringUtils.isBlank(filePath)) {
 			throw new IllegalArgumentException("Groundstations KML file direcotry path is null or blank.");
@@ -58,11 +73,6 @@ public class DefaultGroundstationsLoader {
 		throw new InvalidGroundstationKml();
 	}
 
-	/**
-	 * 
-	 * @param doc
-	 * @return
-	 */
 	private static List<Groundstation> processDocument(Document doc) {
 		List<Groundstation> stations = new ArrayList<>();
 		// NASTY Java KML library API.
@@ -80,6 +90,14 @@ public class DefaultGroundstationsLoader {
 		return stations;
 	}
 
+	/**
+	 * Loads {@link Groundstation}s from a default file. This is a convenience method so it does not have to be
+	 * configured. This probably wouldn't be used in an operational environment..
+	 * 
+	 * @return a list of {@link Groundstation}s.
+	 * @throws InvalidGroundstationKml
+	 *             throw if the KML file is invalid.
+	 */
 	public static List<Groundstation> loadDefaultGroundstations() throws InvalidGroundstationKml {
 		InputStream stream = DefaultGroundstationsLoader.class.getResourceAsStream(HBIRD_DEFAULT_GROUNDSTATIONS_KML);
 		List<Groundstation> stations = loadAllGroundStationsFrom(stream);

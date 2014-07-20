@@ -1,5 +1,11 @@
 package org.hbird.application.groundstations;
 
+/**
+ * A simple bean describing a Ground station.
+ * 
+ * @author Mark Doyle
+ * 
+ */
 public class Groundstation {
 
 	private String name;
@@ -12,10 +18,27 @@ public class Groundstation {
 
 	private double altitude;
 
+	/**
+	 * Default constructor, mainly used by frameworks.
+	 */
 	public Groundstation() {
 		// Do nothing, this is so you can set the properties later.
 	}
 
+	/**
+	 * Creates a fully initialised {@link Groundstation}.
+	 * 
+	 * @param name
+	 *            the groundstations name
+	 * @param description
+	 *            a description of the GroundStation
+	 * @param longitudeDegrees
+	 *            the groundstations longitude
+	 * @param latitudeDegrees
+	 *            the groundstations latitude
+	 * @param heightMetres
+	 *            the altitude of the groundstation in metres.
+	 */
 	public Groundstation(String name, String description, double longitudeDegrees, double latitudeDegrees, double heightMetres) {
 		this.name = name;
 		this.description = description;

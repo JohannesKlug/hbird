@@ -1,12 +1,5 @@
 package org.hbird.application.groundstations.czml;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.List;
-
-import org.hbird.application.groundstations.Groundstation;
-import org.hbird.core.commons.util.Base64Utils;
-
 import cesiumlanguagewriter.BillboardCesiumWriter;
 import cesiumlanguagewriter.Cartographic;
 import cesiumlanguagewriter.CesiumOutputStream;
@@ -16,12 +9,33 @@ import cesiumlanguagewriter.LabelCesiumWriter;
 import cesiumlanguagewriter.PacketCesiumWriter;
 import cesiumlanguagewriter.PositionCesiumWriter;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.List;
+
+import org.hbird.application.groundstations.Groundstation;
+import org.hbird.core.commons.util.Base64Utils;
+
+/**
+ * 
+ * This class provides CZML functions for creating CZML output for {@link Groundstation}s.
+ * 
+ * @author Mark Doyle
+ * 
+ */
 public class GroundstationCzmlUtilities {
 
 	private static final CesiumStreamWriter czmlStreamWriter = new CesiumStreamWriter();
 
 	private static final String GS_PNG_IMAGE_PATH = "/images/satellite_ground_32.png";
 
+	/**
+	 * Generates a CZML String representing the given list of Groundstations.
+	 * 
+	 * @param stations
+	 *            the ground stations to create the CZML for.
+	 * @return the CZML String.
+	 */
 	public static String generateCzmlFromGroundstations(List<Groundstation> stations) {
 		StringWriter stringWriter = new StringWriter();
 		CesiumOutputStream czmlOutStream = new CesiumOutputStream(stringWriter);

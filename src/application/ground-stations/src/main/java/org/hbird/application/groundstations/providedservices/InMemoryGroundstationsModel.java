@@ -11,9 +11,9 @@ import org.hbird.application.groundstations.loaders.DefaultGroundstationsLoader;
 import org.hbird.application.groundstations.services.GroundstationServices;
 
 /**
- * The model can currently handle the {@link GroundstationServices} provision since nothing complex is giong on yet.
+ * The model can currently handle the {@link GroundstationServices} provision since nothing complex is going on yet.
  * 
- * @author Mark
+ * @author Mark doyle
  * 
  */
 public class InMemoryGroundstationsModel implements GroundstationServices {
