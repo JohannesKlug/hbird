@@ -18,7 +18,7 @@
 			<bundle dependency="true" start="false">mvn:joda-time/joda-time/2.1</bundle>
 			<bundle dependency="true" start="false">mvn:com.googlecode.guava-osgi/guava-osgi/11.0.0</bundle>
 			<bundle dependency="true" start="false">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-io/1.4_3</bundle>
-			<bundle dependency="true" start="false">mvn:org.orekit/orekit/6.0</bundle>
+			<bundle dependency="true" start="false">mvn:org.orekit/orekit/${orekit.version}</bundle>
 			<bundle start="false">mvn:org.hbird.core/commons/${project.version}</bundle>
 			<bundle start="false">mvn:org.hbird.core/space-system-model/${project.version}</bundle>
 			<feature version="${spring.version}">spring</feature>
