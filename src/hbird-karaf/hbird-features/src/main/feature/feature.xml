@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.2.1" name="hbird-complete">
+
+			
+    <feature name="hbird-complete" version="0.0.1-SNAPSHOT" description="Hbird :: Karaf :: KAR Features">
+    	<bundle start-level="50">mvn:org.codehaus.jackson/jackson-core-asl/1.9.13</bundle>
+    	<bundle start-level="50">mvn:org.codehaus.jackson/jackson-mapper-asl/1.9.13</bundle>
+	</feature>
+	
+</features>	

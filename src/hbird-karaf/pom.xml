@@ -9,6 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<groupId>org.hbird.karaf</groupId>
 	<artifactId>karaf-parent</artifactId>
 	<packaging>pom</packaging>
 	<name>Hbird :: Karaf :: Parent project</name>
@@ -18,5 +19,4 @@
 		<module>hbird-platform</module>
 	</modules>
 
-	<groupId>org.hbird.karaf</groupId>
 </project>

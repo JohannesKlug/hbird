@@ -37,11 +37,11 @@
 		<java.version>1.7</java.version>
 
 		<rxtx.version>2.1.7</rxtx.version>
-		<log4j.version>1.2.16</log4j.version>
-		<spring.version>3.1.4.RELEASE</spring.version>
+		<log4j.version>1.2.17</log4j.version>
+		<spring.version>3.2.11.RELEASE</spring.version>
 		<junit.version>4.10</junit.version>
 		<castor.version>1.3.2</castor.version>
-		<camel.version>2.12.3</camel.version>
+		<camel.version>2.14.0</camel.version>
 		<mysqlconnector.version>5.1.10</mysqlconnector.version>
 		<jencks.version>2.2</jencks.version>
 		<slf4j.version>1.6.4</slf4j.version>
@@ -54,7 +54,7 @@
 		<mockito.version>1.9.5-rc1</mockito.version>
 		<jersey.version>1.17</jersey.version>
 		<jersey.version>1.17</jersey.version>
-		<karaf.version>3.0.1</karaf.version>
+		<karaf.version>3.0.2</karaf.version>
 		<commons-io.version>1.4_3</commons-io.version>
 		<orekit.version>6.1</orekit.version>
 		<joda-time.version>2.1</joda-time.version>

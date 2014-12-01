@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -21,38 +23,14 @@
 
 	<dependencies>
 		<dependency>
-			<!-- scope is compile so all features (there is only one) are installed into startup.properties and the feature repo itself 
-				is not installed -->
 			<groupId>org.apache.karaf.features</groupId>
 			<artifactId>framework</artifactId>
 			<version>${karaf.version}</version>
 			<type>kar</type>
 		</dependency>
 		<dependency>
-			<!-- scope is runtime so the feature repo is listed in the features service config file, and features may be installed 
-				using the karaf-maven-plugin configuration -->
 			<groupId>org.apache.karaf.features</groupId>
 			<artifactId>standard</artifactId>
-			<version>${karaf.version}</version>
-			<classifier>features</classifier>
-			<type>xml</type>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<!-- scope is runtime so the feature repo is listed in the features service config file, and features may be installed 
-				using the karaf-maven-plugin configuration -->
-			<groupId>org.apache.karaf.features</groupId>
-			<artifactId>enterprise</artifactId>
-			<version>${karaf.version}</version>
-			<classifier>features</classifier>
-			<type>xml</type>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<!-- scope is runtime so the feature repo is listed in the features service config file, and features may be installed 
-				using the karaf-maven-plugin configuration -->
-			<groupId>org.apache.karaf.features</groupId>
-			<artifactId>spring</artifactId>
 			<version>${karaf.version}</version>
 			<classifier>features</classifier>
 			<type>xml</type>
@@ -62,71 +40,60 @@
 			<groupId>org.apache.camel.karaf</groupId>
 			<artifactId>apache-camel</artifactId>
 			<version>${camel.version}</version>
-			<classifier>features</classifier>
 			<type>xml</type>
+			<classifier>features</classifier>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hbird.karaf</groupId>
-			<artifactId>hbird-features</artifactId>
+			<artifactId>hbird-complete</artifactId>
 			<version>${project.version}</version>
-			<classifier>features</classifier>
-			<type>xml</type>
+			<type>kar</type>
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.karaf.tooling</groupId>
+					<artifactId>karaf-maven-plugin</artifactId>
+					<version>${karaf.version}</version>
+					<extensions>true</extensions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.karaf.tooling</groupId>
 				<artifactId>karaf-maven-plugin</artifactId>
-				<extensions>true</extensions>
-				<executions>
-					<execution>
-						<id>install-kar</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>install-kars</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>package</id>
-						<goals>
-							<goal>instance-create-archive</goal>
-						</goals>
-					</execution>
-				</executions>
 				<configuration>
 					<startupFeatures>
 					</startupFeatures>
 					<bootFeatures>
 						<feature>standard</feature>
-						<feature>enterprise</feature>
 						<feature>management</feature>
 						<feature>ssh</feature>
+						<feature>wrapper</feature>
 						<feature>config</feature>
-						<feature>deployers</feature>
-						<feature>region</feature>
 						<feature>package</feature>
-						<feature>kar</feature>
+						<feature>region</feature>
+						<feature>http</feature>
+						<feature>http-whiteboard</feature>
+						<feature>war</feature>
 						<feature>webconsole</feature>
-						<feature>camel-core</feature>
-						<feature>camel-netty</feature>
-						<feature>camel-blueprint</feature>
-						<feature>camel-spring</feature>
-						<feature>camel-stream</feature>
-						<feature>camel-mina2</feature>
-						<feature>camel-mongodb</feature>
+						<feature>jetty</feature>
+						<feature>aries-annotation</feature>
+						<feature>hbird-complete</feature>
 					</bootFeatures>
 					<installedFeatures>
-						<feature>wrapper</feature>
-						<!-- <feature>hbird-complete</feature> -->
 					</installedFeatures>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 
 	<repositories>
 		<repository>
@@ -161,6 +128,18 @@
 			<id>sonatyperepository</id>
 			<name>sonatyperepository</name>
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</repository>
+
+		<!-- OPS4J SNAPSHOT repository -->
+		<repository>
+			<id>ops4j.sonatype.snapshots.deploy</id>
+			<name>OPS4J snapshot repository</name>
+			<url>https://oss.sonatype.org/content/repositories/ops4j-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+			</snapshots>
 		</repository>
 
 	</repositories>
