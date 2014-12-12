@@ -14,6 +14,9 @@
 	<artifactId>space-system-model</artifactId>
 	<name>Hbird :: Core :: Space System Model</name>
 
+	<packaging>bundle</packaging>
+	<description>Defines the Hbird core space system model classes and interfaces. Also provides the Space System Model Factory interface.</description>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -23,15 +26,6 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>bundle-manifest</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>manifest</goal>
-						</goals>
-					</execution>
-				</executions>
 				<configuration>
 					<instructions>
 						<Import-Package>
@@ -49,7 +43,10 @@
 			<groupId>org.hbird.core</groupId>
 			<artifactId>commons</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -62,8 +59,10 @@
 			<version>1.1.1</version>
 		</dependency>
 		<dependency>
-			<groupId>uk.com.robust-it</groupId>
-			<artifactId>cloning</artifactId>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.9</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -72,15 +71,10 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.codehaus.enunciate</groupId>
-			<artifactId>enunciate-core-annotations</artifactId>
-			<version>1.27</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.2.7</version>
 		</dependency>
 	</dependencies>
-	<packaging>bundle</packaging>
-	<description>Defines the Hbird core space system model classes and interfaces. Also provides the Space System Model Factory interface.</description>
+
 </project>
