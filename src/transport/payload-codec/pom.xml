@@ -1,98 +1,54 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<artifactId>hummingbird-transport</artifactId>
 		<groupId>org.hbird.transport</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
+
 	<artifactId>payload-codec</artifactId>
 	<name>Hbird :: Transport :: Generic Payload Codec</name>
 	<description>Generic payload is capable if decoding and encoding between raw data and telemetry/telecommands using data retrieved frmo a space system model.</description>
 	<packaging>bundle</packaging>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<build>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.felix</groupId>
-										<artifactId>maven-bundle-plugin</artifactId>
-										<versionRange>[2.1.0,)</versionRange>
-										<goals>
-											<goal>manifest</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
-			<plugin>
-				<groupId>org.maven.ide.eclipse</groupId>
-				<artifactId>lifecycle-mapping</artifactId>
-				<version>0.9.9-SNAPSHOT</version>
-				<configuration>
-					<mappingId>generic</mappingId>
-					<configurators></configurators>
-					<mojoExecutions></mojoExecutions>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>bundle-manifest</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>manifest</goal>
-						</goals>
-					</execution>
-				</executions>
 				<configuration>
 					<instructions>
 						<Export-Package>
-							org.hbird.transport.payloadcodec.*, 
+							org.hbird.transport.payloadcodec.*,
 						</Export-Package>
 						<Embed-Dependency>
-							cloning 
+							cloning
 						</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 	<dependencies>
+		<dependency>
+			<groupId>org.hbird.core</groupId>
+			<artifactId>commons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.hbird.core</groupId>
 			<artifactId>space-system-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>uk.com.robust-it</groupId>
@@ -112,7 +68,12 @@
 			<artifactId>space-system-publisher</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
 	</dependencies>
+
 </project>
 
 
