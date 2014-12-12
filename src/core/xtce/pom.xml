@@ -1,14 +1,20 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<name>Hbird :: Core :: XTCE space system model factory</name>
-	<description>XTCE implementation of the Space System Model Factory.</description>
+	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<artifactId>hummingbird-core</artifactId>
 		<groupId>org.hbird.core</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<modelVersion>4.0.0</modelVersion>
+
+	<name>Hbird :: Core :: XTCE space system model factory</name>
+	<description>XTCE implementation of the Space System Model Factory.</description>
 	<artifactId>xtce</artifactId>
+	<packaging>bundle</packaging>
+
 	<build>
 		<resources>
 			<resource>
@@ -22,7 +28,7 @@
 				</excludes>
 			</resource>
 		</resources>
-		
+
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -42,7 +48,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>castor-maven-plugin</artifactId>
@@ -68,24 +74,15 @@
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
 				<extensions>true</extensions>
-				<executions>
-					<execution>
-						<id>bundle-manifest</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>manifest</goal>
-						</goals>
-					</execution>
-				</executions>
 				<configuration>
 					<instructions>
 						<Export-Package>
 							org.hbird.core.xtce,
 							org.hbird.core.xtce.utils,
-							org.hbird.core.xtce.exceptions 
+							org.hbird.core.xtce.exceptions
 						</Export-Package>
 						<Private-Package>
-							org.hbird.core.generatedcode* 
+							org.hbird.core.generatedcode*
 						</Private-Package>
 						<Import-Package>
 							!netscape.ldap,
@@ -94,7 +91,7 @@
 							javax.xml.bind.annotation
 						</Import-Package>
 						<Embed-Dependency>
-							castor-core,castor-xml 
+							castor-core,castor-xml
 						</Embed-Dependency>
 					</instructions>
 				</configuration>
@@ -102,13 +99,9 @@
 		</plugins>
 
 	</build>
-	
-	
+
+
 	<dependencies>
-		<dependency>
-			<groupId>org.codehaus.castor</groupId>
-			<artifactId>castor-core</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor-xml</artifactId>
@@ -127,6 +120,15 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.2.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
 	</dependencies>
-	<packaging>bundle</packaging>
+
 </project>
