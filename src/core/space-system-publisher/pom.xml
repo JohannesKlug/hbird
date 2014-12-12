@@ -8,6 +8,9 @@
 		<groupId>org.hbird.core</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+
+	<packaging>bundle</packaging>
+	<description>This bundle provides Hbird space system model publication services. It allows clients to retrive space system model information, update the model, and register for updates to the model.</description>
 	
 	<artifactId>space-system-publisher</artifactId>
 	<name>Hbird :: Core :: Space System Publisher</name>
@@ -21,26 +24,6 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>bundle-manifest</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>manifest</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			
-			<plugin>
-				<groupId>org.maven.ide.eclipse</groupId>
-				<artifactId>lifecycle-mapping</artifactId>
-				<version>0.9.9-SNAPSHOT</version>
-				<configuration>
-					<mappingId>generic</mappingId>
-					<configurators></configurators>
-					<mojoExecutions></mojoExecutions>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -51,17 +34,6 @@
 			<artifactId>space-system-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-spring</artifactId>
-		</dependency>
 	</dependencies>
-	
-	<packaging>bundle</packaging>
-	<description>This bundle provides Hbird space system model publication services. It allows clients to retrive space system model information, update the model, and register for updates to the model.</description>
 	
 </project>
