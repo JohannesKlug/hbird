@@ -20,8 +20,6 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.service.TransportMetadata;
 import org.apache.mina.core.session.DummySession;
@@ -340,11 +338,5 @@ public class MinaKissFrameDecoderTest {
 	public void testCorruptCommandTypeFrame() throws Exception {
 		decoder.decode(mockSession, IoBuffer.wrap(CORRUPT_COMMAND_TYPE_FRAME), mockOut);
 		verifyZeroInteractions(mockOut);
-	}
-
-	@Test
-	public void testLogging() throws Exception {
-		LogManager.getLogger(KissSyncerDecoder.class).setLevel(Level.TRACE);
-		this.testKissFrameDecodeSplitFrameRubbishEitherSide();
 	}
 }

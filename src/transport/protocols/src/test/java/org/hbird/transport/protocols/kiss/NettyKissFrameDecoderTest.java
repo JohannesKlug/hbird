@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.hbird.core.commons.util.BytesUtility;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.handler.codec.embedder.DecoderEmbedder;
@@ -337,11 +335,5 @@ public class NettyKissFrameDecoderTest {
 	public void testCorruptCommandTypeFrame() throws Exception {
 		byte[] expected = null;
 		offerAndAssert(expected, CORRUPT_COMMAND_TYPE_FRAME);
-	}
-
-	@Test
-	public void testLogging() throws Exception {
-		LogManager.getLogger(NettyKissFrameDecoder.class).setLevel(Level.TRACE);
-		this.testKissFrameDecodeSplitFrameRubbishEitherSide();
 	}
 }
