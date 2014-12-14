@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -9,47 +11,34 @@
 	<artifactId>integration-testing</artifactId>
 	<packaging>bundle</packaging>
 
-        <build>
-                <plugins>
-                        <plugin>
-                                <groupId>org.maven.ide.eclipse</groupId>
-                                <artifactId>lifecycle-mapping</artifactId>
-                                <version>0.9.9-SNAPSHOT</version>
-                                <configuration>
-                                        <mappingId>generic</mappingId>
-                                        <configurators></configurators>
-                                        <mojoExecutions></mojoExecutions>
-                                </configuration>
-                        </plugin>
-
-                        <plugin>
-                                <groupId>org.apache.felix</groupId>
-                                <artifactId>maven-bundle-plugin</artifactId>
-                                <executions>
-                                        <execution>
-                                                <id>bundle-manifest</id>
-                                                <phase>process-classes</phase>
-                                                <goals>
-                                                        <goal>manifest</goal>
-                                                </goals>
-                                        </execution>
-                                </executions>
-                                <configuration>
-                                        <instructions>
-                                                <Export-Package>
-                                                </Export-Package>
-                                        </instructions>
-                                </configuration>
-                        </plugin>
-                </plugins>
-        </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 
 	<dependencies>
 		<dependency>
 			<groupId>org.hbird.core</groupId>
+			<artifactId>commons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hbird.core</groupId>
 			<artifactId>space-system-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
