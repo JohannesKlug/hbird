@@ -26,12 +26,4 @@
 		<module>ground-stations</module>
 	</modules>
 	
-	<dependencies>
-		<dependency>
-			<groupId>org.hbird.core</groupId>
-			<artifactId>commons</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
-
 </project>
