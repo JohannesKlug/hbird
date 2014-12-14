@@ -11,35 +11,8 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.maven.ide.eclipse</groupId>
-				<artifactId>lifecycle-mapping</artifactId>
-				<version>0.9.9-SNAPSHOT</version>
-				<configuration>
-					<mappingId>generic</mappingId>
-					<configurators></configurators>
-					<mojoExecutions></mojoExecutions>
-				</configuration>
-			</plugin>
-
-			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>bundle-manifest</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>manifest</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<instructions>
-						<Export-Package>
-							org.hbird.application.calibration.*,
-						</Export-Package>
-					</instructions>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
