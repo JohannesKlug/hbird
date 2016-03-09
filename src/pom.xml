@@ -60,7 +60,7 @@
 		<orekit.version>6.1</orekit.version>
 		<joda-time.version>2.1</joda-time.version>
 		<commons-lang3.version>3.1</commons-lang3.version>
-		<commons-collections.version>3.2.1</commons-collections.version>
+		<commons-collections.version>3.2.2</commons-collections.version>
 		<java-api-for-kml.version>2.2.0-SNAPSHOT</java-api-for-kml.version>
 	</properties>
 
